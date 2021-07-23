@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  	<head>
+    	<title>DojoDashboard</title>
+    	<meta name="viewport" content="width=device-width,initial-scale=1">
+    	<%= csrf_meta_tags %>
+    	<%= csp_meta_tag %>
+
+		<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+		<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+		<% if flash[:errors] %>
+			<% flash[:errors].each do |error| %>
+				<p><small><%= error %></small><p>
+			<% end %>
+		<% end %>
+	</head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>
