@@ -8,8 +8,8 @@ class Dojo < ApplicationRecord
     # Owner: Adrian
     def self.all_dojos
         return ActiveRecord::Base.connection.exec_query(
-                                "SELECT * FROM dojos"
-							)
+                    "SELECT * FROM dojos"
+                )
 	rescue Exception
 		  return  false
     end
