@@ -4,11 +4,8 @@ class StudentsController < ApplicationController
 	# params: id
   	def show
     	@student = Student.find_student_by_id(params[:id])
-
-  	rescue ActiveRecord::RecordNotFound
-    	flash[:errors] = ["Student not found"]
-		redirect_to session[:return_to]
-
+		@cohorts = Dojo.find_students_by_dojo_id(@student["dojo_id"])
+		@dojo	 = Dojo.find_dojo_by_id(@student["dojo_id"])
   	end
 
 	# (GET) /students/:id/edit
@@ -18,11 +15,6 @@ class StudentsController < ApplicationController
   	def edit
 		@student = Student.find_student_by_id(params[:id])
 		@dojos 	 = Dojo.all_dojos
-
-	rescue ActiveRecord::RecordNotFound
-		flash[:errors] = ["Student not found"]
-		redirect_to session[:return_to]
-
 	end
 
 	# (POST) /students/:id
@@ -31,10 +23,7 @@ class StudentsController < ApplicationController
 	# Output of the method
 	def update
 		student = Student.update_student(params[:id], student_params, params[:student][:dojo])
-
-	rescue ActiveRecord::RecordNotFound
-		flash[:errors] = ["Record not found"]
-		redirect_to session[:return_to]
+		redirect_to "/students/#{params[:id]}"
 	end
 
 	# (GET) /students/new
