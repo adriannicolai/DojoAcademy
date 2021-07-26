@@ -17,7 +17,7 @@ class Dojo < ApplicationRecord
 	# DOCU: Create a new Dojo
     # Triggered by: dojos_controller > create
     # Requires: branch, street, city, state
-    # Returns: true, false
+    # Returns: created dojo, false
     # Owner: Adrian
     def self.create_new_dojo params
 		date_time_now = Time.now.utc.strftime("%Y-%m-%d %H:%M:%S")
@@ -28,7 +28,7 @@ class Dojo < ApplicationRecord
 				params["branch"], params["street"], params["city"], params["state"]]
 			)
 		)
-		return true
+
 	rescue Exception
 		  return  false
     end
@@ -43,8 +43,10 @@ class Dojo < ApplicationRecord
             ActiveRecord::Base.send(:sanitize_sql_array,
               ["SELECT * FROM dojos
                 WHERE ID = ?;",
-                dojo_id])
+                dojo_id]
+            )
         )
+
     rescue Exception
 		  return  false
     end
@@ -75,7 +77,8 @@ class Dojo < ApplicationRecord
 			ActiveRecord::Base.send(:sanitize_sql_array,
 			  ["DELETE FROM dojos
 				WHERE id = ?;",
-				dojo_id])
+				dojo_id]
+            )
 		)
 	rescue Exception
 		return  false
