@@ -1,36 +1,54 @@
 class StudentsController < ApplicationController
+	# (GET) /students/:id
+	# displays the selected student 
+	# params: id
   	def show
-    	@student = Student.find(params[:id])
+    	@student = Student.find_student_by_id(params[:id])
+
   	rescue ActiveRecord::RecordNotFound
     	flash[:errors] = ["Student not found"]
 		redirect_to session[:return_to]
+
   	end
 
+	# (GET) /students/:id/edit
+	# displays the form to edit the selected student
+	# params: id
+	# Output of the method
   	def edit
-		@student = Student.find(params[:id])
-		@dojos = Dojo.all
+		@student = Student.find_student_by_id(params[:id])
+		@dojos 	 = Dojo.all_dojos
+
 	rescue ActiveRecord::RecordNotFound
 		flash[:errors] = ["Student not found"]
 		redirect_to session[:return_to]
+
 	end
 
+	# (POST) /students/:id
+	# updaes the selected student
+	# params: id, [:student][:dojo], [:student][:first_name], [:student][:dojo], [:student][:last_name], [:student][:dojo], [:student][:email]
+	# Output of the method
 	def update
-		dojo = Dojo.find(params[:student][:dojo])
-		Student.find(params[:id]).update(student_params)
-		Student.find(params[:id]).update(dojo: dojo)
+		student = Student.update_student(params[:id], student_params, params[:student][:dojo])
+
 	rescue ActiveRecord::RecordNotFound
 		flash[:errors] = ["Record not found"]
 		redirect_to session[:return_to]
 	end
 
+	# (GET) /students/new
+	# Displays the form to create a new student
 	def new
-		@dojos = Dojo.all
+		@dojos = Dojo.all_dojos
 	end
 
+	# (POST) /students
+	# Creates a new student
+	# params: [:student][:dojo], [:student][:first_name], [:student][:last_name], [:student][:email]
+	# Output of the method
 	def create
-		student 	   = Student.new(student_params)
-		student.dojo   = Dojo.find(params[:student][:dojo]) 
-		student.save
+		student = Student.create_student(student_params, params[:student][:dojo])
 		redirect_to '/dojos'
 	end
 

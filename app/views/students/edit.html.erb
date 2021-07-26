@@ -10,11 +10,12 @@
     <input type="text" name="student[email]" value="<%= @student.email %>">
     <label>Dojo</label>
     <select name="student[dojo]">
+
         <% @dojos.each do |dojo|%>
-            <% if dojo.id == @student.dojo.id %>
-                <option value="<%= dojo.id %>" selected> <%= dojo.branch %></option>
+            <% if dojo["id"] ==  @student.dojo_id %>
+                <option value="<%= dojo["id"] %>" selected> <%= dojo["branch"] %></option>
             <% else %>
-                <option value="<%= dojo.id %>"> <%= dojo.branch %></option>
+                <option value="<%= dojo["id"] %>"> <%= dojo["branch"] %></option>
             <% end %>
         <% end %>
     </select>

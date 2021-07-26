@@ -10,7 +10,7 @@
     <label>Dojo</label>
     <select name="student[dojo]">
         <% @dojos.each do |dojo|%>
-            <option value="<%= dojo.id %>"> <%= dojo.branch %></option>
+            <option value="<%= dojo["id"] %>"> <%= dojo["branch"] %></option>
         <% end %>
     </select>
     <input type="submit" value="Create">

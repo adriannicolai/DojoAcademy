@@ -1,51 +1,58 @@
 class DojosController < ApplicationController
+	# (GET) /dojos1
+	# Displays the index page with all of the dojos
  	def index
-		@dojos = Dojo.all
+		@dojos = Dojo.all_dojos
   	end
 	
+	# (GET) /dojos/new
+	# Displays a form for creating a new dojo
 	def new
 	end
 
+	# (POST) /dojos
+	# Creates a new dojo
+	# params: [:dojo][:branch], [:dojo][:city], [:dojo][:street], [:dojo][:state]
 	def create
-		dojo = Dojo.create(dojos_params)
-		flash[:errors] = dojo.errors.full_messages if dojo.errors
+		Dojo.create_new_dojo(dojos_params)
 		redirect_to '/dojos'
 	end
 
+	# (GET) /dojos/:id
+	# Shows the selected dojo
+	# params: id
 	def show
-		@dojo = Dojo.find(params[:id])
-		@students = @dojo.students
-		session[:return_to] = "/dojos/#{params[:id]}"
-	rescue ActiveRecord::RecordNotFound
-		flash[:errors] = ["Dojo not found"]
-		redirect_to '/dojos'
+		@dojo 	  = Dojo.find_dojo_by_id(params[:id])
+		@students = Dojo.find_students_by_dojo_id(params[:id])
 	end
 
+	# (GET) /dojo:id/edit
+	# Edit the selected dojo
+	# params: id, [:dojo][:branch], [:dojo][:city], [:dojo][:street], [:dojo][:state]
 	def edit
-		@dojo = Dojo.find(params[:id])
-		redirect_to '/dojos'
-	rescue ActiveRecord::RecordNotFound
-		flash[:errors] = ["Dojo not found"]
-		redirect_to '/dojos'
+		@dojo = Dojo.find_dojo_by_id(params[:id])
 	end
 
+	# (POST) URL
+	# Describe what the method does
+	# params: id, 
+	# Output of the method
 	def update
-		dojo = Dojo.find(params[:id]).update(dojos_params)
-	rescue ActiveRecord::RecordNotFound
-		flash[:errors] = ["Dojo not found"]
-		redirect_to '/dojos'
+		Dojo.update_dojo(params[:id], dojos_params)
+		redirect_to "/dojos/#{params[:id]}"
+		# dojo = Dojo.find_dojo_by_id(params[:id]).update(dojos_params)
 	end
 
+	# (GET) /dojos/:id/destroy
+	# Destroys the selected dojo
+	# params: id
 	def destroy
-		dojo = Dojo.find(params[:id]).destroy
-		redirect_to '/dojos'
-	rescue ActiveRecord::RecordNotFound
-		flash[:errors] = ["Dojo not found"]
+		Dojo.delete_dojo_by_id(params[:id])
+		# dojo = Dojo.find_dojo_by_id(params[:id]).destroy
 		redirect_to '/dojos'
 	end
 
 	private
-
 	def dojos_params
 		params.require(:dojo).permit(:branch, :city, :street, :state)
 	end

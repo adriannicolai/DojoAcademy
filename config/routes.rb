@@ -5,4 +5,6 @@ Rails.application.routes.draw do
   get 'dojos/:id/destroy' => 'dojos#destroy'
   resources :dojos
   resources :students
+
+  root 'dojos#index'
 end

@@ -1,8 +1,8 @@
-<h1><%= @dojo.branch %></h1>
-<h2>Address:<%= @dojo.street %></h2>
-<h2>Ciyt: <%= @dojo.city %> State: <%= @dojo.state %></h2>
-<a href="/dojos">Home</a> | <a href="/dojos/<%= @dojo.id %>/edit">Edit</a>
-<% if @students.length > 0 %>
+<h1><%= @dojo["branch"] %></h1>
+<h2>Address:<%= @dojo["street"] %></h2>
+<h2>Ciyt: <%= @dojo["city"] %> State: <%= @dojo["state"] %></h2>
+<a href="/dojos">Home</a> | <a href="/dojos/<%= @dojo["id"] %>/edit">Edit</a>
+<% if @students %>
     <h2>Students Roster</h2>
     <table>
         <thead>
@@ -16,12 +16,12 @@
         <tbody>
     <% @students.each do |student| %>
             <tr>
-                <td><%= student.first_name %></td>
-                <td><%= student.last_name %></td>
-                <td><%= student.email %></td>
+                <td><%= student["first_name"] %></td>
+                <td><%= student["last_name"] %></td>
+                <td><%= student["email"] %></td>
                 <td>
-                    <a href="/students/<%= student.id %>">Show</a>
-                    <a href="/students/<%= student.id %>/edit">Edit</a>
+                    <a href="/students/<%= student["id"] %>">Show</a>
+                    <a href="/students/<%= student["id"] %>/edit">Edit</a>
                 </td>
             </tr>
     <% end %>

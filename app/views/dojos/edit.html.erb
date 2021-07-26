@@ -1,15 +1,15 @@
-<h1>Editing <%= @dojo.branch %></h1>
-<form action="/dojos/<%= @dojo.id %>" method="post">
+<h1>Editing <%= @dojo["branch"] %></h1>
+<form action="/dojos/<%= @dojo["id"] %>" method="post">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
     <input type="hidden" name="_method" value="patch">
     <label>Branch:</label>
-    <input type="text" name="dojo[branch]" value="<%= @dojo.branch %>">
+    <input type="text" name="dojo[branch]" value="<%= @dojo["branch"] %>">
     <label>Street:</label>
-    <input type="text" name="dojo[street]" value="<%= @dojo.street %>">
+    <input type="text" name="dojo[street]" value="<%= @dojo["street"] %>">
     <label>City:</label>
-    <input type="text" name="dojo[city]" value="<%= @dojo.city %>">
+    <input type="text" name="dojo[city]" value="<%= @dojo["city"] %>">
     <label>State:</label>
-    <input type="text" name="dojo[state]" value="<%= @dojo.state %>">
+    <input type="text" name="dojo[state]" value="<%= @dojo["state"] %>">
     <input type="submit" value="Update">
 </form>
-<a href="/dojos">Home</a> | <a href="/dojos/<%= @dojo.id %>">Show </a>
+<a href="/dojos">Home</a> | <a href="/dojos/<%= @dojo["id"] %>">Show </a>
