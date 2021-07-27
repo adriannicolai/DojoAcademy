@@ -14,7 +14,8 @@ class Dojo < ApplicationRecord
 		  return  false
     end
 
-	# DOCU: Create a new Dojo
+
+	  # DOCU: Create a new Dojo
     # Triggered by: dojos_controller > create
     # Requires: branch, street, city, state
     # Returns: created dojo, false
@@ -52,7 +53,9 @@ class Dojo < ApplicationRecord
 		  return  false
     end
 
-	# DOCU: Finds the students with the corresponding dojo_id
+
+
+	  # DOCU: Finds the students with the corresponding dojo_id
     # Triggered by:  dojos_controller > show
     # Requires: dojo_id
     # Returns: selected records, false
@@ -69,7 +72,8 @@ class Dojo < ApplicationRecord
 		  return  false
     end
 
-	# DOCU: Finds the dojo with the corresponding dojo id
+
+    # DOCU: Finds the dojo with the corresponding dojo id
     # Triggered by:  dojos_controller > show, dojos_controller > edit, dojos_controller > update, dojos_controller > destroy
     # Requires: dojo_id
     # Owner: Adrian
@@ -85,7 +89,8 @@ class Dojo < ApplicationRecord
 		return  false
 	end
 
-	# DOCU: Updates the record for the selected dojo
+
+  	# DOCU: Updates the record for the selected dojo
     # Triggered by:  dojos_controller > update
     # Requires: dojo_id
     # Owner: Adrian
