@@ -4,7 +4,11 @@ class Student < ApplicationRecord
   	validates :email, presence: true,  uniqueness: { case_sensitive: false }, format: { with: EMAIL_REGEX }
   	validates :first_name, :last_name, presence: true
 
-	# returns the the student with id equal to the given id 
+	# DOCU: finds the student with the corresponding student_id
+    # Triggered by: dojos_controller > show, students_controller > show, students_controller > edit
+	# Requires: student_id
+    # Returns: returns selected records, false
+    # Owner: Adrian
 	def self.find_student_by_id(student_id)
 		ActiveRecord::Base.connection.select_one(
 			ActiveRecord::Base.send(:sanitize_sql_array,
@@ -15,7 +19,11 @@ class Student < ApplicationRecord
 		)
 	end
 
-	# creates a new studennt
+	# DOCU: creates a new student
+    # Triggered by: students_controller > create
+	# Requires: dojo_id, params["first_name"], params["last_name"], params["email"]
+    # Returns: created record, false
+    # Owner: Adrian
 	def self.create_student(params, dojo_id)
 		date_time_now = Time.now.utc.strftime("%Y-%m-%d %H:%M:%S")
 		ActiveRecord::Base.connection.insert(
@@ -27,7 +35,11 @@ class Student < ApplicationRecord
 		)
 	end
 
-	# updates the selected student with the given parameters
+	# DOCU: updates student with the corresponding student_id 
+    # Triggered by: students_controller > update
+	# Requires: student_id, dojo_id, params["first_name"], params["last_name"], params["email"]
+    # Returns: updated record, false
+    # Owner: Adrian
 	def self.update_student(student_id, params, dojo_id)
 		ActiveRecord::Base.connection.update(
 			ActiveRecord::Base.send(:sanitize_sql_array,
@@ -37,8 +49,5 @@ class Student < ApplicationRecord
 				params["first_name"], params["last_name"], params["email"], dojo_id, student_id]
 			)
 		)
-		# dojo = Dojo.find_dojo_by_id(dojo_id)
-		# Student.find(student_id).update(student_params)
-		# Student.find(student_id).update(dojo: dojo)
 	end
 end
