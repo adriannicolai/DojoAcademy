@@ -31,6 +31,7 @@ class DojosController < ApplicationController
 	# params: id, [:dojo][:branch], [:dojo][:city], [:dojo][:street], [:dojo][:state]
 	def edit
 		@dojo = Dojo.find_dojo_by_id(params[:id])
+		render :json => @dojo
 	end
 
 	# (POST) URL
@@ -39,8 +40,8 @@ class DojosController < ApplicationController
 	# Output of the method
 	def update
 		Dojo.update_dojo(params[:id], dojos_params)
-		redirect_to "/dojos/#{params[:id]}"
-		# dojo = Dojo.find_dojo_by_id(params[:id]).update(dojos_params)
+		dojo = Dojo.find_dojo_by_id(params[:id])
+		render :json => dojo
 	end
 
 	# (GET) /dojos/:id/destroy
