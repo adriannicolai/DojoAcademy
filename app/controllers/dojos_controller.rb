@@ -15,7 +15,13 @@ class DojosController < ApplicationController
 	# params: [:dojo][:branch], [:dojo][:city], [:dojo][:street], [:dojo][:state]
 	def create
 		Dojo.create_new_dojo(dojos_params)
-		redirect_to '/dojos'
+		dojo 			= Dojo.find_dojo_after_creation(dojos_params)
+		number_of_dojos = Dojo.all_dojos
+		response = {
+			dojo: dojo, 
+			number_of_dojos: number_of_dojos
+		}
+		render :json => response
 	end
 
 	# (GET) /dojos/:id
@@ -49,8 +55,12 @@ class DojosController < ApplicationController
 	# params: id
 	def destroy
 		Dojo.delete_dojo_by_id(params[:id])
-		# dojo = Dojo.find_dojo_by_id(params[:id]).destroy
-		redirect_to '/dojos'
+		number_of_dojos = Dojo.all
+		response = {
+			id: params[:id],
+			number_of_dojos: number_of_dojos
+		}
+		render :json => response
 	end
 
 	private
