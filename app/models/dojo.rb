@@ -26,7 +26,6 @@ class Dojo < ApplicationRecord
                 params["branch"], params["street"], params["city"], params["state"]]
             )
         )
-        return { :status => true }
     end
 
     # DOCU: Finds the dojo with the corresponding dojo_id
@@ -65,11 +64,19 @@ class Dojo < ApplicationRecord
     # Requires: dojo_id
     # Owner: Adrian
 	def self.delete_dojo_by_id(dojo_id)
+        ActiveRecord::Base.connection.delete(
+            ActiveRecord::Base.send(:sanitize_sql_array,
+              ["DELETE FROM students
+                WHERE dojo_id = ?;",
+                dojo_id]
+            )
+        )
 		ActiveRecord::Base.connection.delete(
 			ActiveRecord::Base.send(:sanitize_sql_array,
                 ["DELETE FROM dojos
                 WHERE id = ?;",
-                dojo_id])
+                dojo_id]
+            )
         )
 	rescue Exception
 		return  false
@@ -89,4 +96,18 @@ class Dojo < ApplicationRecord
             )
 		)
 	end
+
+    # DOCU: Fetches the dojo after creating it 
+    # Triggered by: dojos_controller > create
+    # Requires: d
+    # Owner: Adrian
+    def self.find_dojo_after_creation(params)
+        ActiveRecord::Base.connection.select_one(
+            ActiveRecord::Base.send(:sanitize_sql_array,
+                ["SELECT * from dojos
+                WHERE branch = ? AND street = ? AND city = ? AND state = ?;",
+                params["branch"], params["street"], params["city"], params["state"]]
+            )
+        )
+    end
 end
