@@ -1,5 +1,3 @@
-<h1>Dojos#index</h1>
-<p>Find me in app/views/dojos/index.html.erb</p>
 <h1>Listing <%= @dojos.count %> Dojos</h1>
 <table>
 <thead>
@@ -29,10 +27,10 @@
 <% end %>
 </tbody>
 </table>
-<a href="/dojos/new">New Dojo</a>
+<%# <a href="/dojos/new">New Dojo</a> %>
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" id="newDojo">
-  Launch demo modal
+    Create a new Dojo
 </button>
 
 <!-- Modal -->
@@ -45,25 +43,24 @@
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form action="/dojos" method="post">
+        <form action="/dojos" method="post" id="newDojoForm">
             <div class="modal-body">
-            
                 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
                 <div class="form-group">
                     <label>Branch:</label>
-                    <input type="text" class="form-control" name="dojo[branch]">
+                    <input type="text" class="form-control" name="dojo[branch]" id="input_branch">
                 </div>
                 <div class="form-group">
                     <label>Street:</label>
-                    <input type="text" class="form-control" name="dojo[street]">
+                    <input type="text" class="form-control" name="dojo[street]" id="input_street">
                 </div>
                 <div class="form-group">
                     <label>City:</label>
-                    <input type="text" class="form-control" name="dojo[city]">
+                    <input type="text" class="form-control" name="dojo[city]" id="input_city">
                 </div>
                 <div class="form-group">
                 <label>State:</label>
-                    <input type="text" class="form-control" name="dojo[state]">
+                    <input type="text" class="form-control" name="dojo[state]" id="input_state">
                 </div>
             </div>
             <div class="modal-footer">
