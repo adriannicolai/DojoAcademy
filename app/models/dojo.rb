@@ -8,11 +8,13 @@ class Dojo < ApplicationRecord
     # Owner: Adrian
     def self.all_dojos
         return ActiveRecord::Base.connection.exec_query(
-                                "SELECT * FROM dojos"
-                                )
+                    "SELECT * FROM dojos"
+                )
+	rescue Exception
+		  return  false
     end
 
-	# DOCU: Create a new Dojo
+    # DOCU: Create a new Dojo
     # Triggered by: dojos_controller > create
     # Requires: branch, street, city, state
     # Returns: created dojo, false
@@ -27,6 +29,9 @@ class Dojo < ApplicationRecord
             )
         )
         return { :status => true }
+	  rescue Exception
+		  return  false
+
     end
 
     # DOCU: Finds the dojo with the corresponding dojo id
@@ -39,10 +44,12 @@ class Dojo < ApplicationRecord
             ActiveRecord::Base.send(:sanitize_sql_array,
                 ["SELECT * FROM dojos
                 WHERE ID = ?;",
-                dojo_id])
+                dojo_id]
+            )
         )
+
     rescue Exception
-		return  false
+		  return  false
     end
 
     # DOCU: Finds the students with the corresponding dojo_id
@@ -55,7 +62,8 @@ class Dojo < ApplicationRecord
             ActiveRecord::Base.send(:sanitize_sql_array,
                 ["SELECT * FROM students 
                 WHERE dojo_id = ?;",
-                dojo_id])
+                dojo_id]
+              )
         )
     rescue Exception
 		  return  false
@@ -72,6 +80,7 @@ class Dojo < ApplicationRecord
                 WHERE id = ?;",
                 dojo_id])
         )
+
 	rescue Exception
 		return  false
 	end
