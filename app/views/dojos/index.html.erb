@@ -12,7 +12,7 @@
 <tbody>
 <% if @dojos %>
     <% @dojos.each do |dojo| %>
-    <tr>
+    <tr id="dojo<%= dojo["id"] %>">
         <td><%= dojo["branch"] %></td>
         <td><%= dojo["street"] %></td>
         <td><%= dojo["city"] %></td>
@@ -38,7 +38,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">New Dojo</h5>
+            <h5 class="modal-title" id="newDojoModalTitle">New Dojo</h5>
             <button type="button" class="close close-modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -73,39 +73,39 @@
 </div>
 
 <!-- Edit dojo modal -->
-
 <div class="modal fade" id="editDojoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
+        <div class="modal-content" id="editModalContent">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Edit Dojo</h5>
+            <h5 class="modal-title" id="editDojoModalTitle">Editing </h5>
             <button type="button" class="close close-modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form action="/dojos" method="post" id="editDojoForm">
+        <form action="/dojos/" method="post" id="updateDojoForm">
             <div class="modal-body">
                 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                <input type="hidden" name="_method" value="patch">
                 <div class="form-group">
                     <label>Branch:</label>
-                    <input type="text" class="form-control" name="dojo[branch]" id="input_branch">
+                    <input type="text" name="dojo[branch]" class="form-control" id="editDojoModalBranch">
                 </div>
                 <div class="form-group">
                     <label>Street:</label>
-                    <input type="text" class="form-control" name="dojo[street]" id="input_street">
+                    <input type="text" name="dojo[street]" class="form-control" id="editDojoModalStreet">
                 </div>
                 <div class="form-group">
                     <label>City:</label>
-                    <input type="text" class="form-control" name="dojo[city]" id="input_city">
+                    <input type="text" name="dojo[city]" class="form-control" id="editDojoModalCity">
                 </div>
                 <div class="form-group">
                 <label>State:</label>
-                    <input type="text" class="form-control" name="dojo[state]" id="input_state">
+                    <input type="text" name="dojo[state]" class="form-control" id="editDojoModalState">
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-primary" value="Create">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Update">
+                </div>
             </div>
         </form>
         </div>
