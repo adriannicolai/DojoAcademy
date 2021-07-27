@@ -4,7 +4,7 @@ class Student < ApplicationRecord
   	validates :email, presence: true,  uniqueness: { case_sensitive: false }, format: { with: EMAIL_REGEX }
   	validates :first_name, :last_name, presence: true
 
-	# DOCU: Finds the student with the corresponding student_id
+    # DOCU: Finds the student with the corresponding student_id
     # Triggered by:  dojos_controller > show, student_controller > show, student_controller > edit
     # Requires: student_id
     # Returns: selected record, false
@@ -22,7 +22,7 @@ class Student < ApplicationRecord
 		return  false
 	end
 
-	# DOCU: Finds the student with the corresponding dojo_id
+    # DOCU: Finds the student with the corresponding dojo_id
     # Triggered by: student_controller > create
     # Requires: dojo_id, params["first_name"], params["last_name"], params["email"]
     # Returns: created record, false
@@ -41,7 +41,7 @@ class Student < ApplicationRecord
 		return  false
 	end
 
-	# DOCU: updsates student with the corresponding student_id
+    # DOCU: updsates student with the corresponding student_id
     # Triggered by: student_controller > create
     # Requires: student_id, dojo_id, params["first_name"], params["last_name"], params["email"]
     # Returns: created record, false
