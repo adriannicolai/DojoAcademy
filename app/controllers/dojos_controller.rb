@@ -40,7 +40,6 @@ class DojosController < ApplicationController
 	def update
 		Dojo.update_dojo(params[:id], dojos_params)
 		redirect_to "/dojos/#{params[:id]}"
-		# dojo = Dojo.find_dojo_by_id(params[:id]).update(dojos_params)
 	end
 
 	# (GET) /dojos/:id/destroy
