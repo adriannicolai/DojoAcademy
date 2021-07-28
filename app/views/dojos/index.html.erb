@@ -1,6 +1,6 @@
 <h1 id="numberrOfDojos">Listing <%= @dojos.count %> Dojos</h1>
-<table>
-<thead>
+<table class="table">
+<thead class="thead-dark">
     <tr>
         <td>Coding Dojo Branch</td>
         <td>Street</td>
@@ -18,9 +18,9 @@
         <td><%= dojo["city"] %></td>
         <td><%= dojo["state"] %></td>
         <td>
-            <a href="/dojos/<%= dojo["id"] %>">Show</a>
-            <a action-type="edit_dojo" href="/dojos/<%= dojo["id"] %>/edit">Edit</a>
-            <a action-type="delete_dojo" href="/dojos/<%= dojo["id"] %>">Destroy</a>
+            <a class="btn btn-primary" href="/dojos/<%= dojo["id"] %>">Show</a>
+            <a class="btn btn-info" action-type="edit_dojo" href="/dojos/<%= dojo["id"] %>/edit">Edit</a>
+            <a  class="btn btn-danger" action-type="delete_dojo" href="/dojos/<%= dojo["id"] %>">Destroy</a>
         </td>
     </tr>
     <% end %>
@@ -131,7 +131,7 @@
                     <p id="test"> </p>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
-                        <input type="submit" class="btn btn-primary" value="Delete">
+                        <input type="submit" class="btn btn-danger" value="Delete">
                     </div>
                 </div>
             </form>

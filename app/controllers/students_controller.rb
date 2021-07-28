@@ -28,7 +28,12 @@ class StudentsController < ApplicationController
 	# Output of the method
 	def update
 		Student.update_student(params[:id], student_params, params[:student][:dojo])
-		render :json => Student.find_student_by_id(params[:id])
+		student = Student.find_student_by_id(params[:id])
+		response = {
+			student: student,
+			current_dojo: session[:current_dojo]
+		}
+		render :json => response
 	end
 
 	# (GET) /students/new
