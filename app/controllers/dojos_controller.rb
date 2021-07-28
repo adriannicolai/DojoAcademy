@@ -28,6 +28,7 @@ class DojosController < ApplicationController
 	# Shows the selected dojo
 	# params: id
 	def show
+		session[:current_dojo] = params[:id]
 		@dojo 	  = Dojo.find_dojo_by_id(params[:id])
 		@students = Dojo.find_students_by_dojo_id(params[:id])
 	end
