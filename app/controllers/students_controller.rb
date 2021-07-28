@@ -13,8 +13,13 @@ class StudentsController < ApplicationController
 	# params: id
 	# Output of the method
   	def edit
-		@student = Student.find_student_by_id(params[:id])
-		@dojos 	 = Dojo.all_dojos
+		student = Student.find_student_by_id(params[:id])
+		dojos 	 = Dojo.all_dojos
+		response = {
+			student: student,
+			dojos: dojos
+		}
+		render json: response
 	end
 
 	# (POST) /students/:id
@@ -22,14 +27,18 @@ class StudentsController < ApplicationController
 	# params: id, [:student][:dojo], [:student][:first_name], [:student][:dojo], [:student][:last_name], [:student][:dojo], [:student][:email]
 	# Output of the method
 	def update
-		student = Student.update_student(params[:id], student_params, params[:student][:dojo])
-		redirect_to "/students/#{params[:id]}"
+		Student.update_student(params[:id], student_params, params[:student][:dojo])
+		render :json => Student.find_student_by_id(params[:id])
 	end
 
 	# (GET) /students/new
 	# Displays the form to create a new student
 	def new
-		@dojos = Dojo.all_dojos
+		response = {
+			dojo: Dojo.all_dojos,
+			current_dojo: session[:current_dojo]
+		}
+		render :json => response
 	end
 
 	# (POST) /students
@@ -37,8 +46,15 @@ class StudentsController < ApplicationController
 	# params: [:student][:dojo], [:student][:first_name], [:student][:last_name], [:student][:email]
 	# Output of the method
 	def create
-		student = Student.create_student(student_params, params[:student][:dojo])
-		redirect_to '/dojos'
+		Student.create_student(student_params, params[:student][:dojo])
+
+		student = Student.find_student_after_creation(student_params, params[:student][:dojo])
+		response = {
+			student: student,
+			current_dojo: session[:current_dojo]
+		}
+
+		render :json => response
 	end
 
 	private
