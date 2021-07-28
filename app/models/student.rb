@@ -50,4 +50,18 @@ class Student < ApplicationRecord
 			)
 		)
 	end
+
+	# DOCU: Fetches the student after creating it 
+    # Triggered by: students_controller > create
+    # Requires: dojo_id, params["first_name"], params["last_name"], params["email"]
+    # Owner: Adrian
+    def self.find_student_after_creation(params, dojo_id)
+        ActiveRecord::Base.connection.select_one(
+            ActiveRecord::Base.send(:sanitize_sql_array,
+                  ["SELECT * from students
+                	WHERE first_name = ? AND last_name = ? AND email = ? AND dojo_id = ?;",
+                	params["first_name"], params["last_name"], params["email"], dojo_id]
+            )
+        )
+    end
 end

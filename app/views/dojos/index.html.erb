@@ -1,6 +1,6 @@
 <h1 id="numberrOfDojos">Listing <%= @dojos.count %> Dojos</h1>
-<table>
-<thead>
+<table class="table">
+<thead class="thead-dark">
     <tr>
         <td>Coding Dojo Branch</td>
         <td>Street</td>
@@ -18,9 +18,9 @@
         <td><%= dojo["city"] %></td>
         <td><%= dojo["state"] %></td>
         <td>
-            <a href="/dojos/<%= dojo["id"] %>">Show</a>
-            <a href="/dojos/<%= dojo["id"] %>/edit">Edit</a>
-            <a href="/dojos/<%= dojo["id"] %>">Destroy</a>
+            <a class="btn btn-primary" href="/dojos/<%= dojo["id"] %>">Show</a>
+            <a class="btn btn-info" action-type="edit_dojo" href="/dojos/<%= dojo["id"] %>/edit">Edit</a>
+            <a  class="btn btn-danger" action-type="delete_dojo" href="/dojos/<%= dojo["id"] %>">Destroy</a>
         </td>
     </tr>
     <% end %>
@@ -37,37 +37,37 @@
 <div class="modal fade" id="newDojoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="newDojoModalTitle">New Dojo</h5>
-            <button type="button" class="close close-modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <form action="/dojos" method="post" id="newDojoForm">
-            <div class="modal-body">
-                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                <div class="form-group">
-                    <label>Branch:</label>
-                    <input type="text" class="form-control" name="dojo[branch]" id="newDojoBranch">
-                </div>
-                <div class="form-group">
-                    <label>Street:</label>
-                    <input type="text" class="form-control" name="dojo[street]" id="newDojoStreet">
-                </div>
-                <div class="form-group">
-                    <label>City:</label>
-                    <input type="text" class="form-control" name="dojo[city]" id="newDojoCity">
-                </div>
-                <div class="form-group">
-                <label>State:</label>
-                    <input type="text" class="form-control" name="dojo[state]" id="newDojoState">
-                </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="newDojoModalTitle">New Dojo</h5>
+                <button type="button" class="close close-modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-primary" value="Create">
-            </div>
-        </form>
+            <form action="/dojos" method="post" id="newDojoForm">
+                <div class="modal-body">
+                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                    <div class="form-group">
+                        <label>Branch:</label>
+                        <input type="text" class="form-control" name="dojo[branch]" id="newDojoBranch">
+                    </div>
+                    <div class="form-group">
+                        <label>Street:</label>
+                        <input type="text" class="form-control" name="dojo[street]" id="newDojoStreet">
+                    </div>
+                    <div class="form-group">
+                        <label>City:</label>
+                        <input type="text" class="form-control" name="dojo[city]" id="newDojoCity">
+                    </div>
+                    <div class="form-group">
+                    <label>State:</label>
+                        <input type="text" class="form-control" name="dojo[state]" id="newDojoState">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Create">
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -76,38 +76,39 @@
 <div class="modal fade" id="editDojoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" id="editModalContent">
-        <div class="modal-header">
-            <h5 class="modal-title" id="editDojoModalTitle">Editing </h5>
-            <button type="button" class="close close-modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <form action="/dojos/" method="post" id="updateDojoForm">
-            <div class="modal-body">
-                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                <input type="hidden" name="_method" value="patch">
-                <div class="form-group">
-                    <label>Branch:</label>
-                    <input type="text" name="dojo[branch]" class="form-control" id="editDojoModalBranch">
-                </div>
-                <div class="form-group">
-                    <label>Street:</label>
-                    <input type="text" name="dojo[street]" class="form-control" id="editDojoModalStreet">
-                </div>
-                <div class="form-group">
-                    <label>City:</label>
-                    <input type="text" name="dojo[city]" class="form-control" id="editDojoModalCity">
-                </div>
-                <div class="form-group">
-                <label>State:</label>
-                    <input type="text" name="dojo[state]" class="form-control" id="editDojoModalState">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-primary" value="Update">
-                </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="editDojoModalTitle">Editing </h5>
+                <button type="button" class="close close-modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </form>
+            <form action="/dojos/" method="post" id="updateDojoForm">
+                <div class="modal-body">
+                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                    <input type="hidden" name="_method" value="patch">
+                    <div class="form-group">
+                        <label>Branch:</label>
+                        <input type="text" name="dojo[branch]" class="form-control" id="editDojoModalBranch">
+                    </div>
+                    <div class="form-group">
+                        <label>Street:</label>
+                        <input type="text" name="dojo[street]" class="form-control" id="editDojoModalStreet">
+                    </div>
+                    <div class="form-group">
+                        <label>City:</label>
+                        <input type="text" name="dojo[city]" class="form-control" id="editDojoModalCity">
+                    </div>
+                    <div class="form-group">
+                    <label>State:</label>
+                        <input type="text" name="dojo[state]" class="form-control" id="editDojoModalState">
+                    </div>
+                    <input type="hidden" name="form_location" value="index">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Update">
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -116,24 +117,24 @@
 <div class="modal fade" id="deleteDojoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" id="editModalContent">
-        <div class="modal-header">
-            <h5 class="modal-title">Delete </h5>
-            <button type="button" class="close close-modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <form action="/dojo12312321" method="post" id="deleteDojoForm">
-            <div class="modal-body">
-                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                <input type="hidden" name="_method" value="delete">
-                <p>Are you sure you want to delete ? </p>
-                <p id="test"> </p>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-primary" value="Delete">
-                </div>
+            <div class="modal-header">
+                <h5 class="modal-title">Delete </h5>
+                <button type="button" class="close close-modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </form>
+            <form action="/dojo12312321" method="post" id="deleteDojoForm">
+                <div class="modal-body">
+                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                    <input type="hidden" name="_method" value="delete">
+                    <p>Are you sure you want to delete ? </p>
+                    <p id="test"> </p>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-danger" value="Delete">
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

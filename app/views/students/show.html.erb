@@ -2,8 +2,8 @@
 <h3><%= @student["email"] %></h3>
 <% if @cohorts.length >= 2 %>
     <h1> Cohort </h1>
-    <table>
-        <thead>
+    <table class="table">
+        <thead class="thead-dark">
             <tr>
                 <td>First Name</td>
                 <td>Last Name</td>
@@ -21,8 +21,6 @@
             <% end %>
         <% end %>
         </tbody>
-
-
     </table>
 <% end %>
-<a href="/dojos">Home</a> | <a href="/students/<%= @student["id"] %>/edit">Edit</a>
+<a  class="btn btn-primary" href="/dojos">Home</a> 
