@@ -11,7 +11,6 @@ class StudentsController < ApplicationController
 	# (GET) /students/:id/edit
 	# displays the form to edit the selected student
 	# params: id
-	# Output of the method
   	def edit
 		student = Student.find_student_by_id(params[:id])
 		dojos 	 = Dojo.all_dojos
@@ -25,7 +24,6 @@ class StudentsController < ApplicationController
 	# (POST) /students/:id
 	# updaes the selected student
 	# params: id, [:student][:dojo], [:student][:first_name], [:student][:dojo], [:student][:last_name], [:student][:dojo], [:student][:email]
-	# Output of the method
 	def update
 		Student.update_student(params[:id], student_params, params[:student][:dojo])
 		student = Student.find_student_by_id(params[:id])
@@ -49,7 +47,6 @@ class StudentsController < ApplicationController
 	# (POST) /students
 	# Creates a new student
 	# params: [:student][:dojo], [:student][:first_name], [:student][:last_name], [:student][:email]
-	# Output of the method
 	def create
 		Student.create_student(student_params, params[:student][:dojo])
 
@@ -60,6 +57,14 @@ class StudentsController < ApplicationController
 		}
 
 		render :json => response
+	end
+
+	# (POST) /students/:id
+	# Creates a new student
+	# params: id
+	def destroy
+		Student.delete_student_by_id(params[:id])
+		render :json => params[:id]
 	end
 
 	private

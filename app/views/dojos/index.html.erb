@@ -20,7 +20,7 @@
         <td>
             <a class="btn btn-primary" href="/dojos/<%= dojo["id"] %>">Show</a>
             <a class="btn btn-info" action-type="edit_dojo" href="/dojos/<%= dojo["id"] %>/edit">Edit</a>
-            <a  class="btn btn-danger" action-type="delete_dojo" href="/dojos/<%= dojo["id"] %>">Destroy</a>
+            <a  class="btn btn-danger" action-type="delete_dojo" get-href="/dojos/<%= dojo["id"] %>/edit" href="/dojos/<%= dojo["id"] %>">Destroy</a>
         </td>
     </tr>
     <% end %>
@@ -118,7 +118,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" id="editModalContent">
             <div class="modal-header">
-                <h5 class="modal-title">Delete </h5>
+                <h5 class="modal-title" id="deleteDojoModalTitle">Delete </h5>
                 <button type="button" class="close close-modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -127,7 +127,7 @@
                 <div class="modal-body">
                     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
                     <input type="hidden" name="_method" value="delete">
-                    <p>Are you sure you want to delete ? </p>
+                    <p id="deleteModalText">Are you sure you want to delete ? </p>
                     <p id="test"> </p>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>

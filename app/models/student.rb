@@ -64,4 +64,18 @@ class Student < ApplicationRecord
             )
         )
     end
+
+	# DOCU: Deletes the student by id
+    # Triggered by: students_controller > destroy
+    # Requires: id
+    # Owner: Adrian
+    def self.delete_student_by_id(student_id)
+		ActiveRecord::Base.connection.delete(
+			ActiveRecord::Base.send(:sanitize_sql_array,
+			  ["DELETE FROM students
+				WHERE id = ?;",
+				student_id]
+			)
+		)
+    end
 end
