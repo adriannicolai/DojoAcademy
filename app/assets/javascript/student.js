@@ -83,9 +83,7 @@ function submitCreateStudentForm(e) {
 
     $("#newStudentModal").modal("hide");
 
-    document.querySelectorAll("input[type=text]").forEach(function (input) {
-        input.value = "";
-    })
+    emptyInputs();
 }
 
 /**
@@ -102,16 +100,16 @@ function openNewStudentModal() {
     let dojoHTML = "";
 
     $.get($(this).attr("href"), function (res) {
-        res.dojo.forEach(function (dojo) {
+        console.log(res)
+        for (let x in res.dojo) {
 
-            if (dojo.id == res.current_dojo) {
-                dojoHTML += "<option value='" + dojo.id + "' selected>" + dojo.branch + "</option>";
+            if (res.dojo[x].id == res.current_dojo) {
+                dojoHTML += "<option value='" + res.dojo[x].id + "' selected>" + res.dojo[x].branch + "</option>";
             }
             else {
-                dojoHTML += "<option value='" + dojo.id + "'>" + dojo.branch + "</option>";
+                dojoHTML += "<option value='" + res.dojo[x].id + "'>" + res.dojo[x].branch + "</option>";
             }
-
-        })
+        }
 
         $("#createStudentDojo").html(dojoHTML);
     })
@@ -135,16 +133,17 @@ function studentEditDestroyListener(e) {
 
         $.get($(this).attr("href"), function (res) {
             let optionHTML = "";
+            console.log(res)
 
-            res.dojos.forEach(function (dojo) {
+            for(let x in res.dojos){
 
-                if (dojo.id == res.student.dojo_id) {
-                    optionHTML += "<option value='" + dojo.id + "' selected>" + dojo.branch + "</option>";
+                if(res.dojos[x] == res.student.dojo_id){
+                    optionHTML += "<option value='" + res.dojos[x].id + "' selected>" + res.dojos[x].branch + "</option>";
                 }
-                else {
-                    optionHTML += "<option value='" + dojo.id + "'>" + dojo.branch + "</option>";
+                else{
+                    optionHTML += "<option value='" + res.dojos[x].id + "'>" + res.dojos[x].branch + "</option>";
                 }
-            })
+            }
 
             $("#updateStudentForm").attr("action", "/students/" + res.student.id);
             $("#editStudentModalTitle").text("Editing " + res.student.first_name + " " + res.student.last_name);

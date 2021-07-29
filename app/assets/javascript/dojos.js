@@ -111,9 +111,7 @@ function submitNewDojo(e){
         $("tbody").append(html);
         $("#numberrOfDojos").text("Listing " + res.number_of_dojos.length + " Dojos");
 
-        document.querySelectorAll("input[type=text]").forEach(function(input) {
-            input.value = "";
-        })
+        emptyInputs();
     })
 }
 
