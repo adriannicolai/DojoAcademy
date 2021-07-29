@@ -30,7 +30,7 @@ class DojosController < ApplicationController
 		@students = Dojo.find_students_by_dojo_id(params[:id])
 	end
 
-	# (GET) /dojo:id/edit
+	# (GET) /dojos/:id/edit
 	# Edit the selected dojo
 	# params: id, [:dojo][:branch], [:dojo][:city], [:dojo][:street], [:dojo][:state]
 	def edit
@@ -38,13 +38,14 @@ class DojosController < ApplicationController
 		render :json => @dojo
 	end
 
-	# (POST) URL
+	# (POST) /dojos/:id/edit
 	# Describe what the method does
 	# params: id, 
 	def update
 		Dojo.update_dojo(params[:id], dojos_params)
 		dojo = Dojo.find_dojo_by_id(params[:id])
-		render :json => dojo
+		html = render_to_string :partial => "/dojos/templates/dojo_row", :locals => { :dojo => dojo }
+		render :json => {dojo: dojo, html: html}
 	end
 
 	# (GET) /dojos/:id/destroy

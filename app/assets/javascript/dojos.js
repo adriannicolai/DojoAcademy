@@ -99,7 +99,7 @@ function submitNewDojo(e){
     $.post($(this).attr('action'), $(this).serialize(), function (res) {
         $("tbody").append(res.html);
 
-        updateDojoNumber("add")
+        updateDojoNumber("add");
 
         emptyInputs();
     })
@@ -119,17 +119,7 @@ function sumbitUpdateDojoForm(e){
     $.post($(this).attr("action"), $(this).serialize(), function (res) {
 
         if ($("#updateDojoForm :input[name=form_location]").val() == "index") {
-            let dojoHTML = "<td>" + res.branch + "</td>";
-
-            dojoHTML += "<td>" + res.street + "</td>";
-            dojoHTML += "<td>" + res.city + "</td>";
-            dojoHTML += "<td>" + res.state + "</td>";
-            dojoHTML += "<td>";
-            dojoHTML += "<a class='btn btn-primary' href='/dojos/" + res.id + "'>Show</a> ";
-            dojoHTML += "<a class='btn btn-info' action-type='edit_dojo' href='/dojos/" + res.id + "/edit'>Edit</a> ";
-            dojoHTML += "<a class='btn btn-danger' action-type='delete_dojo' get-href='/dojos/" + res.id + "/edit' href='/dojos/" + res.id + "'>Destroy</a>";
-            dojoHTML += "</td>";
-            $("#dojo" + res.id).html(dojoHTML);
+            $("#dojo" + res.dojo.id).replaceWith(res.html);
         }
         else if ($("#updateDojoForm :input[name=form_location]").val() == "show") {
             $("#showBranch").text(res.branch);
@@ -137,6 +127,7 @@ function sumbitUpdateDojoForm(e){
             $("#showCityAndState").text("City: " + res.city + " State: " + res.state);
         }
     })
+
     hideModals();
 }
 
@@ -165,5 +156,4 @@ function updateDojoNumber(updateType){
     if(updateType == "add"){
         $("#numberOfDojos").text(numberOfDojos += 1)
     }
-
 }
