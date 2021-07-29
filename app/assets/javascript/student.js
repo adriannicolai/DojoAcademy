@@ -4,7 +4,7 @@ $(document).ready(function(){
         .on("click", "a", studentEditDestroyListener)                       /* This is a listener for anchor tag with the attributy 'action-type' */
         .on("submit", "#updateStudentForm", submitUpdateStudentForm)        /* This will submit the update student form via ajax request */
         .on("submit", "#createStudentForm", submitCreateStudentForm)        /* This will submit the create student form via ajax request */
-        .on("submit", "#deleteDojoForm", submitDeleteDojoForm)              /* This will submit the delete dojo form via ajax request */
+        .on("submit", "#deleteDojoForm", submitDeleteDojoForm);             /* This will submit the delete dojo form via ajax request */
 })
 
 /**
@@ -65,8 +65,8 @@ function submitUpdateStudentForm(e) {
 */
 function submitCreateStudentForm(e) {
     e.preventDefault();
-    $.post($(this).attr("action"), $(this).serialize(), function (res) {
 
+    $.post($(this).attr("action"), $(this).serialize(), function (res) {
         if (res.student.dojo_id == res.current_dojo) {
             let studentHTML = "<tr id='student" + res.student.id + "'>";
             studentHTML += "<td>" + res.student.first_name + "</td>";
@@ -78,7 +78,6 @@ function submitCreateStudentForm(e) {
 
             $("tbody").append(studentHTML);
         }
-
     })
 
     $("#newStudentModal").modal("hide");
@@ -100,7 +99,6 @@ function openNewStudentModal() {
     let dojoHTML = "";
 
     $.get($(this).attr("href"), function (res) {
-        console.log(res)
         for (let x in res.dojo) {
 
             if (res.dojo[x].id == res.current_dojo) {
@@ -133,7 +131,6 @@ function studentEditDestroyListener(e) {
 
         $.get($(this).attr("href"), function (res) {
             let optionHTML = "";
-            console.log(res)
 
             for(let x in res.dojos){
 

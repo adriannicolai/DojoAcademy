@@ -55,7 +55,7 @@ function dojoEditDestroyListener(e){
 * DOCU: This function will hide the create, edit and delete dojo modals.<br>
 * Triggered: .on("click", ".close-modal", hideModals)  <br>
 * Last Updated Date: July 29, 2021
-* @function
+* @function1
 * @memberOf Dojos page
 * @author Adrian
 */
@@ -97,19 +97,9 @@ function submitNewDojo(e){
     hideModals();
 
     $.post($(this).attr('action'), $(this).serialize(), function (res) {
-        let html = "<tr id='dojo" + res.dojo.id + "'>";
-        html += "<td>" + res.dojo.branch + "</td>";
-        html += "<td>" + res.dojo.street + "</td>";
-        html += "<td>" + res.dojo.city + "</td>";
-        html += "<td>" + res.dojo.state + "</td>";
-        html += "<td>";
-        html += "<a class='btn btn-primary' href='/dojos/" + res.dojo.id + "'>Show</a> ";
-        html += "<a class='btn btn-info' action-type='edit_dojo' href='/dojos/" + res.dojo.id + "/edit'>Edit</a> ";
-        html += "<a class='btn btn-danger'action-type='delete_dojo' get-href='/dojos/" + res.dojo.id + "/edit' href='/dojos/" + res.dojo.id + "'>Destroy</a>";
-        html += "</td>";
-        html += "</tr>";
-        $("tbody").append(html);
-        $("#numberrOfDojos").text("Listing " + res.number_of_dojos.length + " Dojos");
+        $("tbody").append(res.html);
+
+        updateDojoNumber("add")
 
         emptyInputs();
     })
@@ -130,6 +120,7 @@ function sumbitUpdateDojoForm(e){
 
         if ($("#updateDojoForm :input[name=form_location]").val() == "index") {
             let dojoHTML = "<td>" + res.branch + "</td>";
+
             dojoHTML += "<td>" + res.street + "</td>";
             dojoHTML += "<td>" + res.city + "</td>";
             dojoHTML += "<td>" + res.state + "</td>";
@@ -145,7 +136,6 @@ function sumbitUpdateDojoForm(e){
             $("#showStreet").text("Address: " + res.street);
             $("#showCityAndState").text("City: " + res.city + " State: " + res.state);
         }
-
     })
     hideModals();
 }
@@ -160,10 +150,20 @@ function sumbitUpdateDojoForm(e){
 */
 function submitDeleteDojoForm(e){
     e.preventDefault();
+
     $.post($(this).attr("action"), $(this).serialize(), function (res) {
         $("#dojo" + res.id).remove();
         $("#numberrOfDojos").text("Listing " + res.number_of_dojos.length + " Dojos");
     });
 
     $("#deleteDojoModal").modal("hide");
+}
+
+function updateDojoNumber(updateType){
+    let numberOfDojos = parseInt($("#numberOfDojos").text())
+
+    if(updateType == "add"){
+        $("#numberOfDojos").text(numberOfDojos += 1)
+    }
+
 }

@@ -1,0 +1,12 @@
+
+<tr id="dojo<%= dojo["id"] %>">
+    <td><%= dojo["branch"] %></td>
+    <td><%= dojo["street"] %></td>
+    <td><%= dojo["city"] %></td>
+    <td><%= dojo["state"] %></td>
+    <td>
+        <a class="btn btn-primary" href="/dojos/<%= dojo["id"] %>">Show</a>
+        <a class="btn btn-info" action-type="edit_dojo" href="/dojos/<%= dojo["id"] %>/edit">Edit</a>
+        <a  class="btn btn-danger" action-type="delete_dojo" get-href="/dojos/<%= dojo["id"] %>/edit" href="/dojos/<%= dojo["id"] %>">Destroy</a>
+    </td>
+</tr>

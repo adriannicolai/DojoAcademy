@@ -14,13 +14,10 @@ class DojosController < ApplicationController
 	# Creates a new dojo
 	# params: [:dojo][:branch], [:dojo][:city], [:dojo][:street], [:dojo][:state]
 	def create
-		Dojo.create_new_dojo(dojos_params)
-		dojo 			= Dojo.find_dojo_after_creation(dojos_params)
-		number_of_dojos = Dojo.all_dojos
-		response = {
-			dojo: dojo, 
-			number_of_dojos: number_of_dojos
-		}
+		dojo_id 	= Dojo.create_new_dojo(dojos_params)
+		dojo 		= Dojo.find_dojo_by_id(dojo_id)
+		html 		= render_to_string :partial => "dojos/templates/dojo_row", :locals => { :dojo => dojo }
+		response 	= { dojo: dojo, html: html }
 		render :json => response
 	end
 

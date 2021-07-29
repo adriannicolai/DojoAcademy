@@ -18,14 +18,16 @@ class Dojo < ApplicationRecord
     # Requires: params["branch"], params["street"], params["street"], params["state"]
     # Owner: Adrian
     def self.create_new_dojo params
-        date_time_now = Time.now.utc.strftime("%Y-%m-%d %H:%M:%S")
-        ActiveRecord::Base.connection.execute(
-            ActiveRecord::Base.send(:sanitize_sql_array, 
-                ["INSERT INTO dojos (branch, street, city, state, created_at, updated_at) 
-                VALUES (?, ?, ?, ?,'#{date_time_now}', '#{date_time_now}');", 
-                params["branch"], params["street"], params["city"], params["state"]]
-            )
-        )
+        date_time_now   =   Time.now.utc.strftime("%Y-%m-%d %H:%M:%S")
+
+        new_dojo        =   ActiveRecord::Base.connection.insert(
+                                ActiveRecord::Base.send(:sanitize_sql_array, 
+                                  ["INSERT INTO dojos (branch, street, city, state, created_at, updated_at) 
+                                    VALUES (?, ?, ?, ?,'#{date_time_now}', '#{date_time_now}');", 
+                                    params["branch"], params["street"], params["city"], params["state"]]
+                                )
+                            )
+        return new_dojo
     end
 
     # DOCU: Finds the dojo with the corresponding dojo_id
@@ -97,17 +99,4 @@ class Dojo < ApplicationRecord
 		)
 	end
 
-    # DOCU: Fetches the dojo after creating it 
-    # Triggered by: dojos_controller > create
-    # Requires: d
-    # Owner: Adrian
-    def self.find_dojo_after_creation(params)
-        ActiveRecord::Base.connection.select_one(
-            ActiveRecord::Base.send(:sanitize_sql_array,
-                ["SELECT * from dojos
-                WHERE branch = ? AND street = ? AND city = ? AND state = ?;",
-                params["branch"], params["street"], params["city"], params["state"]]
-            )
-        )
-    end
 end
