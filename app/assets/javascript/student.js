@@ -42,7 +42,7 @@ function submitUpdateStudentForm(e) {
             studentHTML += "<td>";
             studentHTML += "<a class='btn btn-primary' href='/students/" + res.student.id + "'> Show</a> ";
             studentHTML += "<a class='btn btn-info' action-type='edit_student' href='/students/" + res.student.id + "/edit'> Edit</a> ";
-            studentHTML += "<a class='btn btn-danger' action-type='delete_student' href='students/"+ res.student.id + "/delete'> Delete</a>";
+            studentHTML += "<a class='btn btn-danger' action-type='delete_student' get-href='/students/" + res.student.id + "/edit' href='students/"+ res.student.id + "/delete'> Delete</a>";
             studentHTML += "</td>";
 
             $("#student" + res.student.id).html(studentHTML);

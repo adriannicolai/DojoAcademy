@@ -94,7 +94,7 @@ function emptyInputs(){
 */
 function submitNewDojo(e){
     e.preventDefault();
-    hideModals()
+    hideModals();
 
     $.post($(this).attr('action'), $(this).serialize(), function (res) {
         let html = "<tr id='dojo" + res.dojo.id + "'>";
@@ -111,7 +111,7 @@ function submitNewDojo(e){
         $("tbody").append(html);
         $("#numberrOfDojos").text("Listing " + res.number_of_dojos.length + " Dojos");
 
-        document.querySelectorAll("input[type=text]").forEach(function (input) {
+        document.querySelectorAll("input[type=text]").forEach(function(input) {
             input.value = "";
         })
     })
@@ -149,7 +149,7 @@ function sumbitUpdateDojoForm(e){
         }
 
     })
-    hideModals()
+    hideModals();
 }
 
 /**
