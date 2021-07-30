@@ -52,12 +52,27 @@ function getNewStudentForm(e) {
 * @author Adrian
 */
 function studentCreateEditDestroyListener(e) {
-    let action = $(this).attr("action-type");
+    let action  = $(this).attr("action-type");
+    let form    = $(this).closest("form");
 
-    if(action == "edit_student") {
+    if(action == "show_student"){
+        e.preventDefault();
+        
+        form.attr("action", $(this).attr("href"));
+
+        $.post(form.attr("action"), form.serialize(), function (res) {
+           if(res.status){
+               window.location.href = res.redirect_url;
+           }
+        });
+    }
+    else if(action == "edit_student") {
         e.preventDefault();
 
-        $.get($(this).attr("href"), function (res) {
+        form.attr("action", $(this).attr("href"));
+
+        $.post(form.attr("action"), form.serialize(), function (res) {
+            console.log(res)
             $("#modal-body").html(res.html);
         });
 
@@ -66,7 +81,7 @@ function studentCreateEditDestroyListener(e) {
     else if (action == "delete_student") {
         e.preventDefault();
 
-        $.get($(this).attr("href"), function (res){
+        $.post(form.attr("action"), form.serialize(), function (res){
             $("#student" + res).remove();
         });
     }

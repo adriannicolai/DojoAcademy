@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   post 'students/new'          => 'students#new'
   post 'students/:id'          => 'students#set_show'
+  post 'students/:id/destroy'  => 'students#destroy'
+  post 'students/:id/edit'     => 'students#edit'
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   resources :dojos
