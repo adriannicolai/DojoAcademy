@@ -8,7 +8,6 @@ $(document).ready(function() {
         })                               
         .on("submit", "#newDojoForm", submitNewDojo)                                     /* This will send the new dojo form via ajax post */                                                                           
         .on("submit", "#updateDojoForm", sumbitUpdateDojoForm)                           /* This will submit the new dojo form */
-        .on("submit", "#deleteDojoForm", submitDeleteDojoForm)                           /* This will submit the delete dojo form */
         .on("click", "a", dojoEditDestroyListener)                                       /* This is an event listener whenever a is pressed and open the corresponding modal */
 })
 
@@ -27,27 +26,24 @@ function dojoEditDestroyListener(e){
         e.preventDefault();
 
         $.get($(this).attr("href"), function (res) {
-
             $("#updateDojoForm").attr("action", "/dojos/" + res.id);
             $("#editDojoModalTitle").text("Editing " + res.branch);
             $("#editDojoModalBranch").val(res.branch);
             $("#editDojoModalStreet").val(res.street);
             $("#editDojoModalCity").val(res.city);
             $("#editDojoModalState").val(res.state);
-        })
+        });
 
         $("#editDojoModal").modal("show");
     }
     else if (action == "delete_dojo") {
         e.preventDefault();
 
-        $.get($(this).attr("get-href"), function (res){
-            $("#deleteModalText").text("Are you sure you want to delete " + res.branch + "?")
-            $("#deleteDojoModalTitle").text("Delete " + res.branch + "?")
-        })
+        $.get($(this).attr("href"), function (){});
 
-        $("#deleteDojoForm").attr("action", $(this).attr("href"));
-        $("#deleteDojoModal").modal("show");
+        $(this).closest("tr").remove();
+
+        updateDojoNumber("subtract");
     }
 }
 
@@ -102,7 +98,7 @@ function submitNewDojo(e){
         updateDojoNumber("add");
 
         emptyInputs();
-    })
+    });
 }
 
 /**
@@ -126,34 +122,18 @@ function sumbitUpdateDojoForm(e){
             $("#showStreet").text("Address: " + res.street);
             $("#showCityAndState").text("City: " + res.city + " State: " + res.state);
         }
-    })
-
-    hideModals();
-}
-
-/**
-* DOCU: This function submit the delete dojo form via ajax request.<br>
-* Triggered: .on("submit", "#deleteDojoForm", submitDeleteDojoForm) <br>
-* Last Updated Date: July 29, 2021
-* @function
-* @memberOf Dojos page
-* @author Adrian
-*/
-function submitDeleteDojoForm(e){
-    e.preventDefault();
-
-    $.post($(this).attr("action"), $(this).serialize(), function (res) {
-        $("#dojo" + res.id).remove();
-        $("#numberrOfDojos").text("Listing " + res.number_of_dojos.length + " Dojos");
     });
 
-    $("#deleteDojoModal").modal("hide");
+    hideModals();
 }
 
 function updateDojoNumber(updateType){
     let numberOfDojos = parseInt($("#numberOfDojos").text())
 
     if(updateType == "add"){
-        $("#numberOfDojos").text(numberOfDojos += 1)
+        $("#numberOfDojos").text(numberOfDojos += 1);
+    }
+    else if(updateType == "subtract"){
+        $("#numberOfDojos").text(numberOfDojos -= 1);
     }
 }

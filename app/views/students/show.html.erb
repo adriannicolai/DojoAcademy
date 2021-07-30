@@ -14,16 +14,7 @@
         <tbody>
         <% @cohorts.each do |cohort|%>
             <% if @student["id"] != cohort["id"]  %>
-            <tr id="student<%= cohort["id"] %>">
-                <td><%= cohort["first_name"] %></td>
-                <td><%= cohort["last_name"] %></td>
-                <td><%= cohort["email"] %></td>
-                <td>
-                    <a class="btn btn-primary" href="/students/<%= cohort["id"] %>">show</a>
-                    <a class="btn btn-info" action-type="edit_student" href="/students/<%= cohort["id"] %>/edit">Edit</a>
-                    <a class="btn btn-danger" action-type="delete_student" get-href="/students/<%= cohort["id"] %>/edit" href="/students/<%= cohort["id"] %>/destroy">Delete</a>
-                </td>
-            </tr>
+                <%= render partial: "students/templates/student_row", locals: {cohort: cohort} %>
             <% end %>
         <% end %>
         </tbody>
