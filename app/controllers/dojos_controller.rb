@@ -23,6 +23,13 @@ class DojosController < ApplicationController
 		render :json => response
 	end
 
+	# (post) /dojos/:id
+	# Returns the link for the selected Dojo
+	# params: id
+	def set_show
+		render :json => { status: true, redirect_url: "/dojos/#{params[:id]}"}
+	end
+
 	# (GET) /dojos/:id
 	# Shows the selected dojo
 	# params: id
@@ -30,6 +37,7 @@ class DojosController < ApplicationController
 		session[:current_dojo] = params[:id]
 		@dojo 	  = Dojo.find_dojo_by_id(params[:id])
 		@students = Dojo.find_students_by_dojo_id(params[:id])
+
 	end
 
 	# (GET) /dojos/:id/edit

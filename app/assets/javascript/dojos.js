@@ -6,6 +6,7 @@ $(document).ready(function() {
         .on("click", "a", dojoNewEditDestroyListener)                                       /* This is an event listener whenever a is pressed and open the corresponding modal */
 });
 
+
 /**
 * DOCU: This function is an event listener whenever an anchor tag with 'action-type' attribute is clicked.<br>
 * Triggered: .on("click", "a", dojoNewEditDestroyListener) <br>
@@ -14,10 +15,21 @@ $(document).ready(function() {
 * @memberOf Dojos page
 * @author Adrian
 */
-function dojoNewEditDestroyListener(e){
+function dojoShowNewEditDestroyListener(e){
     let action = $(this).attr("action-type");
+    let form = $(this).closest("form");
 
-    if(action == "new_dojo"){
+    if(action =="show_dojo"){
+        e.preventDefault();
+       form.attr("action", $(this).attr("href"));
+
+       $.post(form.attr("action"), function(res){
+            if(res.status){
+                window.location.href = res.redirect_url
+            }
+       });
+    }
+    else if(action == "new_dojo"){
         e.preventDefault();
         
         $.get($(this).attr("href"), function(res){

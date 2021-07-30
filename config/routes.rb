@@ -1,11 +1,19 @@
 Rails.application.routes.draw do
-  get 'students/show'
-  get 'dojos/index'
-  get 'dojos/:id/destroy' => 'dojos#destroy'
-  get 'students/:id/destroy' => 'students#destroy'
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  resources :dojos
-  resources :students
+    #students
+    get 'students/show'
+    get 'students/:id/destroy' => 'students#destroy'
 
-  root 'dojos#index'
+
+
+    #dojos
+    get 'dojos/index'
+    get 'dojos/:id/destroy' => 'dojos#destroy'
+    post 'dojos/:id' => 'dojos#set_show'
+
+
+    # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+    resources :dojos
+    resources :students
+
+    root 'dojos#index'
 end
