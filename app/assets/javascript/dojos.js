@@ -81,15 +81,7 @@ function sumbitUpdateDojoForm(e){
     e.preventDefault();
 
     $.post($(this).attr("action"), $(this).serialize(), function(res) {
-
-        if($("#updateDojoForm :input[name=form_location]").val() == "index") {
-            $("#dojo" + res.dojo.id).replaceWith(res.html);
-        }
-        else if($("#updateDojoForm :input[name=form_location]").val() == "show") {
-            $("#showBranch").text(res.branch);
-            $("#showStreet").text("Address: " + res.street);
-            $("#showCityAndState").text("City: " + res.city + " State: " + res.state);
-        }
+        $("#dojo" + res.dojo.id).replaceWith(res.html);
     });
 
     hideModals();

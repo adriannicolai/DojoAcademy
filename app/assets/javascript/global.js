@@ -8,6 +8,7 @@
 */
 function hideModals() {
     $("#dojoModal").modal("hide");
+    $("#studentModal").modal("hide");
 }
 
 /**

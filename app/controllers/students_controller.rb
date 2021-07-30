@@ -14,10 +14,8 @@ class StudentsController < ApplicationController
   	def edit
 		student = Student.find_student_by_id(params[:id])
 		dojos 	 = Dojo.all_dojos
-		response = {
-			student: student,
-			dojos: dojos
-		}
+		response = { student: student, dojos: dojos }
+
 		render json: response
 	end
 
@@ -26,37 +24,29 @@ class StudentsController < ApplicationController
 	# params: id, [:student][:dojo], [:student][:first_name], [:student][:dojo], [:student][:last_name], [:student][:dojo], [:student][:email]
 	def update
 		Student.update_student(params[:id], student_params, params[:student][:dojo])
-		student = Student.find_student_by_id(params[:id])
-		response = {
-			student: student,
-			current_dojo: session[:current_dojo]
-		}
-		render :json => response
+		student  = Student.find_student_by_id(params[:id])
+		html = render_to_string partial: 'students/templates/_student_row_dojos_page', locals: { student: student}
+
+		render :json => { student: student, current_dojo: session[:current_dojo]}
 	end
 
 	# (GET) /students/new
 	# Displays the form to create a new student
 	def new
-		response = {
-			dojo: Dojo.all_dojos,
-			current_dojo: session[:current_dojo]
-		}
-		render :json => response
+		html = render_to_string partial: "students/templates/student_modal", locals: { dojos: Dojo.all_dojos, current_dojo: session[:current_dojo], type: 'new_student' }
+
+		render :json => {html: html}
 	end
 
 	# (POST) /students
 	# Creates a new student
 	# params: [:student][:dojo], [:student][:first_name], [:student][:last_name], [:student][:email]
 	def create
-		Student.create_student(student_params, params[:student][:dojo])
+		student_id  = Student.create_student(student_params, params[:student][:dojo])
+		student 	= Student.find_student_by_id(student_id)
+		html = render_to_string partial: 'students/templates/student_row_dojos_page', locals: { student: student}
 
-		student = Student.find_student_after_creation(student_params, params[:student][:dojo])
-		response = {
-			student: student,
-			current_dojo: session[:current_dojo]
-		}
-
-		render :json => response
+		render :json => {student: student, html: html, current_dojo: session[:current_dojo]}
 	end
 
 	# (POST) /students/:id
@@ -64,6 +54,7 @@ class StudentsController < ApplicationController
 	# params: id
 	def destroy
 		Student.delete_student_by_id(params[:id])
+
 		render :json => params[:id]
 	end
 

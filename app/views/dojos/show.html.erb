@@ -1,7 +1,7 @@
 <h1 id="showBranch"><%= @dojo["branch"] %></h1>
 <h2 id="showStreet">Address:<%= @dojo["street"] %></h2>
 <h2 id="showCityAndState">City: <%= @dojo["city"] %> State: <%= @dojo["state"] %></h2>
-<a  class="btn btn-primary" href="/dojos">Home</a> <a  class="btn btn-info" action-type="edit_dojo" href="/dojos/<%= @dojo["id"] %>/edit">Edit</a>
+<a  class="btn btn-primary" href="/dojos">Home</a>
 <% if @students %>
     <h2>Students Roster</h2>
     <table class="table">
@@ -27,85 +27,20 @@
         </tbody>
     </table>
 <% end %>
-<!-- Button trigger student dojo modal -->
-<button type="button" class="btn btn-primary" href="/students/new">
-    Create a new student
-</button>
 
-<!-- Edit dojo modal -->
-<div class="modal fade" id="editDojoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" id="editModalContent">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editDojoModalTitle">Editing </h5>
-                <button type="button" class="close close-modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="/dojos/" method="post" id="updateDojoForm">
-                <div class="modal-body">
-                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                    <input type="hidden" name="_method" value="patch">
-                    <div class="form-group">
-                        <label>Branch:</label>
-                        <input type="text" name="dojo[branch]" class="form-control" id="editDojoModalBranch">
-                    </div>
-                    <div class="form-group">
-                        <label>Street:</label>
-                        <input type="text" name="dojo[street]" class="form-control" id="editDojoModalStreet">
-                    </div>
-                    <div class="form-group">
-                        <label>City:</label>
-                        <input type="text" name="dojo[city]" class="form-control" id="editDojoModalCity">
-                    </div>
-                    <div class="form-group">
-                    <label>State:</label>
-                        <input type="text" name="dojo[state]" class="form-control" id="editDojoModalState">
-                    </div>
-                    <input type="hidden" name="form_location" value="show">
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
-                        <input type="submit" class="btn btn-primary" value="Update">
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+<a class="btn btn-primary" action-type="new_student" href="/students/new">Create a new student</a>
 
 <!-- Create student modal -->
-<div class="modal fade" id="newStudentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="studentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">New Student</h5>
+                <h5 class="modal-title" id="studentModalTitle">New Student</h5>
                 <button type="button" class="close close-modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form action="/students" method="post" id="createStudentForm">
-                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                    <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" class="form-control" name="student[first_name]">
-                    </div>
-                        <label>Last Name</label>
-                        <input type="text" class="form-control" name="student[last_name]">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="text" class="form-control" name="student[email]">
-                    </div>
-                    <div class="form-group">
-                        <label>Dojo</label>
-                        <select name="student[dojo]" class="form-select" id="createStudentDojo"></select>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
-                        <input type="submit" class="btn btn-primary" value="Create">
-                    </div>
-                </form>
-            </div>
+            <div class="modal-body" id="studentModalBody"></div>
         </div>
     </div>
 </div>
