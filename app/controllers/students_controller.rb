@@ -1,4 +1,11 @@
 class StudentsController < ApplicationController
+	# (post) /students/:id
+	# displays returns the redirect_url for the selected student
+	# params: id
+  	def set_show
+		render :json => { redirect_url: "/students/#{params[:id]}", status: true }
+  	end
+
 	# (GET) /students/:id
 	# displays the selected student 
 	# params: id

@@ -15,20 +15,16 @@
         </thead>
         <tbody>
     <% @students.each do |student| %>
-            <tr>
-                <td><%= student["first_name"] %></td>
-                <td><%= student["last_name"] %></td>
-                <td><%= student["email"] %></td>
-                <td>
-                    <a class="btn btn-primary" href="/students/<%= student["id"] %>">Show</a>
-                </td>
-            </tr>
+        <%= render partial: 'students/templates/student_row_dojos_page', locals: { student: student } %>
     <% end %>
         </tbody>
     </table>
 <% end %>
 
-<a class="btn btn-primary" action-type="new_student" href="/students/new">Create a new student</a>
+<form action="/students/new" method="post" id="getNewStudentForm">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="submit" value="Create a new student" class="btn btn-primary">
+</form>
 
 <!-- Create student modal -->
 <div class="modal fade" id="studentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -40,7 +36,7 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="studentModalBody"></div>
+            <div class="modal-body" id="modal-body"></div>
         </div>
     </div>
 </div>
