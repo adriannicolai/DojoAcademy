@@ -4,7 +4,6 @@ $(document).ready(function(){
         .on("click", "a", studentEditDestroyListener)                       /* This is a listener for anchor tag with the attributy 'action-type' */
         .on("submit", "#updateStudentForm", submitUpdateStudentForm)        /* This will submit the update student form via ajax request */
         .on("submit", "#createStudentForm", submitCreateStudentForm)        /* This will submit the create student form via ajax request */
-        .on("submit", "#deleteDojoForm", submitDeleteDojoForm);             /* This will submit the delete dojo form via ajax request */
 })
 
 /**
