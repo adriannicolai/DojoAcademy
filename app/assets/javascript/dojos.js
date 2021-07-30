@@ -4,7 +4,7 @@ $(document).ready(function() {
         .on("submit", "#newDojoForm", submitNewDojo)                                     /* This will send the new dojo form via ajax post */                                                                           
         .on("submit", "#updateDojoForm", sumbitUpdateDojoForm)                           /* This will submit the new dojo form */
         .on("click", "a", dojoNewEditDestroyListener)                                       /* This is an event listener whenever a is pressed and open the corresponding modal */
-})
+});
 
 /**
 * DOCU: This function is an event listener whenever an anchor tag with 'action-type' attribute is clicked.<br>
@@ -19,13 +19,9 @@ function dojoNewEditDestroyListener(e){
 
     if(action == "new_dojo"){
         e.preventDefault();
-
-        $.ajax({
-            type: "get",
-            url: $(this).attr("href"),
-            success: function(res){
-                $("#modal-body").html(res.html);
-            }
+        
+        $.get($(this).attr("href"), function(res){
+            $("#modal-body").html(res.html);
         });
 
         $("#dojoModal").modal("show");
@@ -33,13 +29,9 @@ function dojoNewEditDestroyListener(e){
     else if(action == "edit_dojo"){
         e.preventDefault();
 
-        $.ajax({
-            type: "get",
-            url: $(this).attr("href"),
-            success: function (res) {
-                $("#modalTitle").text("Editing " + res.dojo.branch);
-                $("#modal-body").html(res.html);
-            }
+        $.get($(this).attr("href"), function (res) {
+            $("#modalTitle").text("Editing " + res.dojo.branch);
+            $("#modal-body").html(res.html);
         });
 
         $("#dojoModal").modal("show");
@@ -47,11 +39,7 @@ function dojoNewEditDestroyListener(e){
     else if (action == "delete_dojo") {
         e.preventDefault();
 
-        $.ajax({
-            type: "get",
-            url: $(this).attr("href"),
-            success: function (res) {}
-        });
+        $.get($(this).attr("href"), function (res) {})
 
         $(this).closest("tr").remove();
 
@@ -69,21 +57,16 @@ function dojoNewEditDestroyListener(e){
 */
 function submitNewDojo(e){
     e.preventDefault();
-    
     hideModals();
 
-    $.ajax({
-        type: "post",
-        url: $(this).attr("action"),
-        data: $(this).serialize(),
-        success: function(res){
-            $("tbody").append(res.html);
+    $.post($(this).attr("action"), $(this).serialize(), function (res){
+        $("tbody").append(res.html);
 
-            updateDojoNumber("add");
+        updateDojoNumber("add");
 
-            emptyInputs();
-        }
+        emptyInputs();
     });
+
 }
 
 /**
@@ -97,14 +80,8 @@ function submitNewDojo(e){
 function sumbitUpdateDojoForm(e){
     e.preventDefault();
 
-    $.ajax({
-        type: "post",
-        url: $(this).attr("action"),
-        data: $(this).serialize(),
-        success: function(res){
-            $("#dojo" + res.dojo.id).replaceWith(res.html);
-
-        }
+    $.post($(this).attr("action"), $(this).serialize(), function(res){
+        $("#dojo" + res.dojo.id).replaceWith(res.html);
     });
 
     hideModals();

@@ -19,46 +19,28 @@ function studentCreateEditDestroyListener(e) {
     if(action == "new_student"){
         e.preventDefault();
 
-        updateStudentModalContent($(this).attr("href"))
+        $.get($(this).attr("href"), function(res){
+            $("#studentModalBody").html(res.html);
+        });
+
+        $("#studentModal").modal("show");
     }
     else if(action == "edit_student") {
         e.preventDefault();
 
-        updateStudentModalContent($(this).attr("href"))
+        $.get($(this).attr("href"), function (res) {
+            $("#studentModalBody").html(res.html);
+        });
 
         $("#studentModal").modal("show");
     }
     else if (action == "delete_student") {
         e.preventDefault();
 
-        $.ajax({
-            type: "get",
-            url: $(this).attr("href"),
-            success: function(res){
-                $("#student" + res).remove();
-            }
+        $.get($(this).attr("href"), function (res){
+            $("#student" + res).remove();
         });
     }
-}
-
-/**
-* DOCU: This function will get the href from the anchor tag and update the student modal content accordingly.<br>
-* Triggered: studentCreateEditDestroyListener(e) <br>
-* Last Updated Date: July 30, 2021
-* @function
-* @memberOf Students page
-* @author Adrian
-*/
-function updateStudentModalContent(url){
-    $.ajax({
-        type: "get",
-        url: url,
-        success: function(res){
-            $("#studentModalBody").html(res.html);
-        }
-    });
-
-    $("#studentModal").modal("show");
 }
 
 /**
@@ -72,17 +54,12 @@ function updateStudentModalContent(url){
 function submitUpdateStudentForm(e) {
     e.preventDefault();
 
-    $.ajax({
-        type: "post",
-        data: $(this).serialize(),
-        url: $(this).attr("action"),
-        success: function(res){
-            if (res.current_dojo == res.student.dojo_id) {
-                $("#student" + res.student.id).replaceWith(res.html);
-            }
-            else {
-                $("#student" + res.student.id).remove();
-            }
+    $.post($(this).attr("action"), $(this).serialize(), function (res){
+        if (res.current_dojo == res.student.dojo_id) {
+            $("#student" + res.student.id).replaceWith(res.html);
+        }
+        else {
+            $("#student" + res.student.id).remove();
         }
     });
 
@@ -100,14 +77,9 @@ function submitUpdateStudentForm(e) {
 function submitCreateStudentForm(e) {
     e.preventDefault();
 
-    $.ajax({
-        type: "post",
-        data: $(this).serialize(),
-        url: $(this).attr("action"),
-        success: function(res){
-            if (res.student.dojo_id == parseInt(res.current_dojo)) {
-                $("tbody").append(res.html);
-            }
+    $.post($(this).attr("action"), $(this).serialize(), function (res){
+        if (res.student.dojo_id == parseInt(res.current_dojo)) {
+            $("tbody").append(res.html);
         }
     });
 
