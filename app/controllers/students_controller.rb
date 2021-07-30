@@ -13,10 +13,10 @@ class StudentsController < ApplicationController
 	# params: id
   	def edit
 		student = Student.find_student_by_id(params[:id])
-		dojos 	 = Dojo.all_dojos
-		response = { student: student, dojos: dojos }
+		dojos 	= Dojo.all_dojos
+		html = render_to_string partial: "students/templates/student_modal", locals: { type: "edit_student", dojos: dojos, student: student, current_dojo: session[:current_dojo]}
 
-		render json: response
+		render json: {html: html}
 	end
 
 	# (POST) /students/:id
@@ -25,9 +25,9 @@ class StudentsController < ApplicationController
 	def update
 		Student.update_student(params[:id], student_params, params[:student][:dojo])
 		student  = Student.find_student_by_id(params[:id])
-		html = render_to_string partial: 'students/templates/_student_row_dojos_page', locals: { student: student}
+		html = render_to_string partial: 'students/templates/student_row_dojos_page', locals: { student: student}
 
-		render :json => { student: student, current_dojo: session[:current_dojo]}
+		render :json => { student: student, current_dojo: session[:current_dojo], html: html }
 	end
 
 	# (GET) /students/new

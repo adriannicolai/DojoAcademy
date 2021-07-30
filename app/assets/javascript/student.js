@@ -29,24 +29,7 @@ function studentCreateEditDestroyListener(e) {
         e.preventDefault();
 
         $.get($(this).attr("href"), function(res) {
-            let optionHTML = "";
-
-            // for (let x in res.dojos) {
-
-            //     if (res.dojos[x] == res.student.dojo_id) {
-            //         optionHTML += "<option value='" + res.dojos[x].id + "' selected>" + res.dojos[x].branch + "</option>";
-            //     }
-            //     else {
-            //         optionHTML += "<option value='" + res.dojos[x].id + "'>" + res.dojos[x].branch + "</option>";
-            //     }
-            // }
-
-            // $("#updateStudentForm").attr("action", "/students/" + res.student.id);
-            // $("#editStudentModalTitle").text("Editing " + res.student.first_name + " " + res.student.last_name);
-            // $("#updateStudentFirstName").val(res.student.first_name);
-            // $("#updateStudentLastName").val(res.student.last_name);
-            // $("#updateStudentEmail").val(res.student.email);
-            // $("#updateStudentDojo").html(optionHTML);
+            $("#studentModalBody").html(res.html);
         });
 
         $("#studentModal").modal("show");
