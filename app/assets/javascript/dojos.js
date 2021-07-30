@@ -20,8 +20,12 @@ function dojoNewEditDestroyListener(e){
     if(action == "new_dojo"){
         e.preventDefault();
 
-        $.get($(this).attr("href"), function(res) {
-            $("#modal-body").html(res.html);
+        $.ajax({
+            type: "get",
+            url: $(this).attr("href"),
+            success: function(res){
+                $("#modal-body").html(res.html);
+            }
         });
 
         $("#dojoModal").modal("show");
@@ -29,9 +33,13 @@ function dojoNewEditDestroyListener(e){
     else if(action == "edit_dojo"){
         e.preventDefault();
 
-        $.get($(this).attr("href"), function(res){
-            $("#modal-body").html(res.html);
-            $("#modalTitle").text("Editing " + res.dojo.branch);
+        $.ajax({
+            type: "get",
+            url: $(this).attr("href"),
+            success: function (res) {
+                $("#modalTitle").text("Editing " + res.dojo.branch);
+                $("#modal-body").html(res.html);
+            }
         });
 
         $("#dojoModal").modal("show");
@@ -39,7 +47,11 @@ function dojoNewEditDestroyListener(e){
     else if (action == "delete_dojo") {
         e.preventDefault();
 
-        $.get($(this).attr("href"), function(){});
+        $.ajax({
+            type: "get",
+            url: $(this).attr("href"),
+            success: function (res) {}
+        });
 
         $(this).closest("tr").remove();
 
@@ -60,12 +72,17 @@ function submitNewDojo(e){
     
     hideModals();
 
-    $.post($(this).attr('action'), $(this).serialize(), function(res) {
-        $("tbody").append(res.html);
+    $.ajax({
+        type: "post",
+        url: $(this).attr("action"),
+        data: $(this).serialize(),
+        success: function(res){
+            $("tbody").append(res.html);
 
-        updateDojoNumber("add");
+            updateDojoNumber("add");
 
-        emptyInputs();
+            emptyInputs();
+        }
     });
 }
 
@@ -80,8 +97,14 @@ function submitNewDojo(e){
 function sumbitUpdateDojoForm(e){
     e.preventDefault();
 
-    $.post($(this).attr("action"), $(this).serialize(), function(res) {
-        $("#dojo" + res.dojo.id).replaceWith(res.html);
+    $.ajax({
+        type: "post",
+        url: $(this).attr("action"),
+        data: $(this).serialize(),
+        success: function(res){
+            $("#dojo" + res.dojo.id).replaceWith(res.html);
+
+        }
     });
 
     hideModals();
