@@ -3,7 +3,7 @@ $(document).ready(function() {
         .on("click", ".close-modal", hideModals)                                         /* This will hide all modals */                       
         .on("submit", "#newDojoForm", submitNewDojo)                                     /* This will send the new dojo form via ajax post */                                                                           
         .on("submit", "#updateDojoForm", sumbitUpdateDojoForm)                           /* This will submit the new dojo form */
-        .on("click", "a", dojoNewEditDestroyListener)                                       /* This is an event listener whenever a is pressed and open the corresponding modal */
+        .on("click", "a", dojoShowNewEditDestroyListener)                                       /* This is an event listener whenever a is pressed and open the corresponding modal */
 })
 
 /**
@@ -14,10 +14,21 @@ $(document).ready(function() {
 * @memberOf Dojos page
 * @author Adrian
 */
-function dojoNewEditDestroyListener(e){
+function dojoShowNewEditDestroyListener(e){
     let action = $(this).attr("action-type");
+    let form = $(this).closest("form");
 
-    if(action == "new_dojo"){
+    if(action =="show_dojo"){
+        e.preventDefault();
+       form.attr("action", $(this).attr("href"));
+
+       $.post(form.attr("action"), function(res){
+            if(res.status){
+                window.location.href = res.redirect_url
+            }
+       });
+    }
+    else if(action == "new_dojo"){
         e.preventDefault();
 
         $.ajax({

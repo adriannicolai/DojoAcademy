@@ -103,12 +103,7 @@ function submitCreateStudentForm(e) {
     $.ajax({
         type: "post",
         data: $(this).serialize(),
-        url: $(this).attr("action"),
-        success: function(res){
-            if (res.student.dojo_id == parseInt(res.current_dojo)) {
-                $("tbody").append(res.html);
-            }
-        }
+        url: $
     });
 
     hideModals();
