@@ -23,6 +23,13 @@ class DojosController < ApplicationController
 		render :json => response
 	end
 
+	# (POST) /dojos/:id/show
+	# returns the redirect_rrl for the selected dojo
+	# params: id
+	def set_show
+		render :json => { redirect_url: "/dojos/#{params[:id]}", status: true }
+	end
+
 	# (GET) /dojos/:id
 	# Shows the selected dojo
 	# params: id
