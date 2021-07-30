@@ -29,7 +29,6 @@ function dojoNewEditDestroyListener(e){
                 window.location.href = res.redirect_url;
             }
         });
-
     }
     else if(action == "edit_dojo"){
         e.preventDefault();
@@ -91,7 +90,6 @@ function getNewDojoForm(e) {
     });
 
     $("#dojoModal").modal("show");
-    
 }
 
 /**

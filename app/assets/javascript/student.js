@@ -3,7 +3,45 @@ $(document).ready(function(){
         .on("click", "a", studentCreateEditDestroyListener)                 /* This is a listener for anchor tag with the attributy 'action-type' */
         .on("submit", "#updateStudentForm", submitUpdateStudentForm)        /* This will submit the update student form via ajax request */
         .on("submit", "#createStudentForm", submitCreateStudentForm)        /* This will submit the create student form via ajax request */
-})
+        .on("submit", "#getNewStudentForm", getNewStudentForm)              /* This will get nthe new student form via ajax post and put it on student modal */
+        .on("submit", "#showStudentForm", submitShowStudentForm)            /* This will submit the show student form xia ajax request */
+});
+
+
+/**
+* DOCU: This function submit the show dojo form and redirect the page .<br>
+* Triggered: .on("submit", "#showStudentForm", submitShowStudentForm) <br>
+* Last Updated Date: July 30, 2021
+* @function
+* @memberOf Dojos page
+* @author Adrian
+*/
+function submitShowStudentForm(e){
+    e.preventDefault();
+
+    $.post($(this).attr("action"), $(this).serialize(), function (res) {
+        if (res.status) {
+            window.location.href = res.redirect_url;
+        }
+    });
+}
+/**
+* DOCU: This function submit the new new dojo form and fetch the new dojo form for the modal.<br>
+* Triggered: .on("submit", "#getNewStudentForm", getNewStudentForm) <br>
+* Last Updated Date: July 30, 2021
+* @function
+* @memberOf Dojos page
+* @author Adrian
+*/
+function getNewStudentForm(e) {
+    e.preventDefault();
+
+    $.post($(this).attr("action"), $(this).serialize(), function (res) {
+        $("#modal-body").html(res.html);
+    });
+
+    $("#studentModal").modal("show");
+}
 
 /**
 * DOCU: This function is an event listener for anchor tag with the attribute 'action-type' and will show the edit student modal or sestroy student modal<br>
@@ -16,20 +54,11 @@ $(document).ready(function(){
 function studentCreateEditDestroyListener(e) {
     let action = $(this).attr("action-type");
 
-    if(action == "new_student"){
-        e.preventDefault();
-
-        $.get($(this).attr("href"), function(res){
-            $("#studentModalBody").html(res.html);
-        });
-
-        $("#studentModal").modal("show");
-    }
-    else if(action == "edit_student") {
+    if(action == "edit_student") {
         e.preventDefault();
 
         $.get($(this).attr("href"), function (res) {
-            $("#studentModalBody").html(res.html);
+            $("#modal-body").html(res.html);
         });
 
         $("#studentModal").modal("show");
