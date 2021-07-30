@@ -44,7 +44,6 @@ function studentCreateEditDestroyListener(e) {
     }
 }
 
-
 /**
 * DOCU: This function will submit the update studetn form via ajax request.<br>
 * Triggered: .on("submit", "#updateStudentForm", submitUpdateStudentForm) <br>
@@ -58,16 +57,7 @@ function submitUpdateStudentForm(e) {
 
     $.post($(this).attr("action"), $(this).serialize(), function(res) {
         if (res.current_dojo == res.student.dojo_id) {
-            let studentHTML = "<td>" + res.student.first_name + "</td>";
-            studentHTML += "<td>" + res.student.last_name + "</td>";
-            studentHTML += "<td>" + res.student.email + "</td>";
-            studentHTML += "<td>";
-            studentHTML += "<a class='btn btn-primary' href='/students/" + res.student.id + "'> Show</a> ";
-            studentHTML += "<a class='btn btn-info' action-type='edit_student' href='/students/" + res.student.id + "/edit'> Edit</a> ";
-            studentHTML += "<a class='btn btn-danger' action-type='delete_student' get-href='/students/" + res.student.id + "/edit' href='students/"+ res.student.id + "/delete'> Delete</a>";
-            studentHTML += "</td>";
-
-            $("#student" + res.student.id).html(studentHTML);
+            $("#student" + res.student.id).replaceWith(res.html);
         }
         else {
             $("#student" + res.student.id).remove();
@@ -89,7 +79,6 @@ function submitCreateStudentForm(e) {
     e.preventDefault();
 
     $.post($(this).attr("action"), $(this).serialize(), function (res) {
-
         if (res.student.dojo_id == parseInt(res.current_dojo)) {
             $("tbody").append(res.html);
         }
@@ -98,13 +87,4 @@ function submitCreateStudentForm(e) {
     hideModals();
 
     emptyInputs();
-}
-
-function submitDeleteDojoForm(e){
-    e.preventDefault();
-
-    $.post($(this).attr("action"), $(this).serialize(), function (res){
-        $("#student" + res).remove();
-        hideModals();
-    })
 }

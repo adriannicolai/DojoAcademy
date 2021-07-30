@@ -25,8 +25,7 @@ class StudentsController < ApplicationController
 	def update
 		Student.update_student(params[:id], student_params, params[:student][:dojo])
 		student  = Student.find_student_by_id(params[:id])
-		html = render_to_string partial: 'students/templates/student_row_dojos_page', locals: { student: student}
-
+		html = render_to_string partial: 'students/templates/student_row', locals: { cohort: student}
 		render :json => { student: student, current_dojo: session[:current_dojo], html: html }
 	end
 
