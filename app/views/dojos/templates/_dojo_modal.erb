@@ -1,51 +1,27 @@
-<% if dojo.present? %>
-    <form action="/dojos/<%= dojo["id"] %>" method="post" id="updateDojoForm">
-        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+<form action="/dojos<%= dojo.present? ? "/#{dojo["id"]}" : "" %>" method="post" id="<%= dojo.present? ? "updateDojoForm" : "newDojoForm" %>">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <% if dojo.present?%>
         <input type="hidden" name="_method" value="patch">
-        <div class="form-group">
-            <label>Branch:</label>
-            <input type="text" name="dojo[branch]" class="form-control" value="<%= dojo["branch"] %>">
-        </div>
-        <div class="form-group">
-            <label>Street:</label>
-            <input type="text" name="dojo[street]" class="form-control" value="<%= dojo["street"] %>">
-        </div>
-        <div class="form-group">
-            <label>City:</label>
-            <input type="text" name="dojo[city]" class="form-control" value="<%= dojo["city"] %>">
-        </div>
-        <div class="form-group">
-        <label>State:</label>
-            <input type="text" name="dojo[state]" class="form-control" value="<%= dojo["state"] %>">
-        </div>
-        <input type="hidden" name="form_location" value="index">
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
-            <input type="submit" class="btn btn-primary" value="Update">
-        </div>
-    </form>
-<% else %>
-    <form action="/dojos" method="post" id="newDojoForm">
-        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-        <div class="form-group">
-            <label>Branch:</label>
-            <input type="text" class="form-control" name="dojo[branch]" >
-        </div>
-        <div class="form-group">
-            <label>Street:</label>
-            <input type="text" class="form-control" name="dojo[street]" >
-        </div>
-        <div class="form-group">
-            <label>City:</label>
-            <input type="text" class="form-control" name="dojo[city]" >
-        </div>
-        <div class="form-group">
-        <label>State:</label>
-            <input type="text" class="form-control" name="dojo[state]" >
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
-            <input type="submit" class="btn btn-primary" value="Create">
-        </div>
-    </form>
-<% end %>
+    <% end %>
+    <div class="form-group">
+        <label>Branch:</label>
+        <input type="text" name="dojo[branch]" class="form-control" value="<%= dojo.present? ? "#{dojo["branch"]}" : "" %>">
+    </div>
+    <div class="form-group">
+        <label>Street:</label>
+        <input type="text" name="dojo[street]" class="form-control" value="<%= dojo.present? ? "#{dojo["street"]}" : "" %>">
+    </div>
+    <div class="form-group">``
+        <label>City:</label>
+        <input type="text" name="dojo[city]" class="form-control" value="<%= dojo.present? ? "#{dojo["city"]}" : "" %>">
+    </div>
+    <div class="form-group">
+    <label>State:</label>
+        <input type="text" name="dojo[state]" class="form-control" value="<%= dojo.present? ? "#{dojo["state"]}" : "" %>">
+    </div>
+    <input type="hidden" name="form_location" value="index">
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="<%= dojo.present? ? "Update" : "Create a new Dojo"%>">
+    </div>
+</form>

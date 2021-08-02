@@ -21,7 +21,7 @@ class StudentsController < ApplicationController
   	def edit
 		student = Student.find_student_by_id(params[:id])
 		dojos 	= Dojo.all_dojos
-		html = render_to_string partial: "students/templates/student_modal", locals: { type: "edit_student", dojos: dojos, student: student, current_dojo: session[:current_dojo]}
+		html = render_to_string partial: "students/templates/student_modal", locals: { dojos: dojos, student: student, current_dojo: session[:current_dojo]}
 
 		render json: {html: html}
 	end
@@ -30,16 +30,16 @@ class StudentsController < ApplicationController
 	# updaes the selected student
 	# params: id, [:student][:dojo], [:student][:first_name], [:student][:dojo], [:student][:last_name], [:student][:dojo], [:student][:email]
 	def update
-		Student.update_student(params[:id], student_params, params[:student][:dojo])
-		student  = Student.find_student_by_id(params[:id])
-		html = render_to_string partial: 'students/templates/student_row', locals: { cohort: student}
+		student = Student.update_student(params[:id], student_params, params[:student][:dojo])
+		html 	= render_to_string partial: 'students/templates/student_row', locals: { cohort: student}
+
 		render :json => { student: student, current_dojo: session[:current_dojo], html: html }
 	end
 
 	# (GET) /students/new
 	# Displays the form to create a new student
 	def new
-		html = render_to_string partial: "students/templates/student_modal", locals: { dojos: Dojo.all_dojos, current_dojo: session[:current_dojo], type: 'new_student' }
+		html = render_to_string partial: "students/templates/student_modal", locals: { dojos: Dojo.all_dojos, current_dojo: session[:current_dojo], student: nil }
 
 		render :json => {html: html}
 	end
@@ -48,9 +48,8 @@ class StudentsController < ApplicationController
 	# Creates a new student
 	# params: [:student][:dojo], [:student][:first_name], [:student][:last_name], [:student][:email]
 	def create
-		student_id  = Student.create_student(student_params, params[:student][:dojo])
-		student 	= Student.find_student_by_id(student_id)
-		html = render_to_string partial: 'students/templates/student_row_dojos_page', locals: { student: student}
+		student  = Student.create_student(student_params, params[:student][:dojo])
+		html = render_to_string partial: 'students/templates/student_row_dojos_page', locals: { student: student }
 
 		render :json => {student: student, html: html, current_dojo: session[:current_dojo]}
 	end

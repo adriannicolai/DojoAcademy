@@ -4,11 +4,12 @@
     <td><%= dojo["city"] %></td>
     <td><%= dojo["state"] %></td>
     <td>
-        <form action="/dojos/<%= dojo["id"] %>/destroy" method="post">
+        <form action="" method="post">
             <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-            <a class="btn btn-primary" action-type="show_dojo"  href="/dojos/<%= dojo["id"] %>/show">Show</a>
-            <a class="btn btn-info" action-type="edit_dojo" href="/dojos/<%= dojo["id"] %>/edit">Edit</a>
-            <a  class="btn btn-danger" action-type="delete_dojo" href="/dojos/<%= dojo["id"] %>/destroy">Destroy</a>
+            <input type="hidden" name="dojo_id" value="<%= dojo["id"] %>">
+            <button class="btn btn-primary" action-type="show_dojo">Show</button>
+            <button class="btn btn-info" action-type="edit_dojo">Edit</button>
+            <button class="btn btn-danger" action-type="destroy_dojo">Destroy</button>
         </form>
     </td>
-</tr>
+</tr> 
