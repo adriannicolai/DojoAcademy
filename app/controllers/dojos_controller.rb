@@ -9,6 +9,7 @@ class DojosController < ApplicationController
 	# Displays a form for creating a new dojo
 	def new
 		html = render_to_string partial: "dojos/templates/dojo_modal", locals: {dojo: nil}
+
 		render :json => {html: html}
 	end
 
@@ -16,11 +17,11 @@ class DojosController < ApplicationController
 	# Creates a new dojo
 	# params: [:dojo][:branch], [:dojo][:city], [:dojo][:street], [:dojo][:state]
 	def create
-		dojo_id 	= Dojo.create_new_dojo(dojos_params)
-		dojo 		= Dojo.find_dojo_by_id(dojo_id)
-		html 		= render_to_string :partial => "dojos/templates/dojo_row", :locals => {:dojo => dojo}
-		response 	= { dojo: dojo, html: html }
-		render :json => response
+		dojo 	= Dojo.create_new_dojo(dojos_params)
+		html 	= render_to_string :partial => "dojos/templates/dojo_row", :locals => {:dojo => dojo}
+
+		puts html
+		render :json => { dojo: dojo, html: html }
 	end
 
 	# (POST) /dojos/:id/show
@@ -45,6 +46,7 @@ class DojosController < ApplicationController
 	def edit
 		dojo = Dojo.find_dojo_by_id(params[:id])
 		html = render_to_string partial: "dojos/templates/dojo_modal", locals: {dojo: dojo}
+		
 		render :json => {html: html, dojo: dojo}
 	end
 
@@ -55,6 +57,7 @@ class DojosController < ApplicationController
 		Dojo.update_dojo(params[:id], dojos_params)
 		dojo = Dojo.find_dojo_by_id(params[:id])
 		html = render_to_string :partial => "/dojos/templates/dojo_row", :locals => { :dojo => dojo }
+
 		render :json => {dojo: dojo, html: html}
 	end
 

@@ -21,7 +21,7 @@ class StudentsController < ApplicationController
   	def edit
 		student = Student.find_student_by_id(params[:id])
 		dojos 	= Dojo.all_dojos
-		html = render_to_string partial: "students/templates/student_modal", locals: { type: "edit_student", dojos: dojos, student: student, current_dojo: session[:current_dojo]}
+		html = render_to_string partial: "students/templates/student_modal", locals: { dojos: dojos, student: student, current_dojo: session[:current_dojo]}
 
 		render json: {html: html}
 	end
@@ -39,7 +39,7 @@ class StudentsController < ApplicationController
 	# (GET) /students/new
 	# Displays the form to create a new student
 	def new
-		html = render_to_string partial: "students/templates/student_modal", locals: { dojos: Dojo.all_dojos, current_dojo: session[:current_dojo], type: 'new_student' }
+		html = render_to_string partial: "students/templates/student_modal", locals: { dojos: Dojo.all_dojos, current_dojo: session[:current_dojo], student: nil }
 
 		render :json => {html: html}
 	end
