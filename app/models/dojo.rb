@@ -98,6 +98,7 @@ class Dojo < ApplicationRecord
                 params["branch"], params["street"], params["city"], params["state"], dojo_id]
             )
 		)
-	end
 
+        return self.find_dojo_by_id(dojo_id)
+	end
 end

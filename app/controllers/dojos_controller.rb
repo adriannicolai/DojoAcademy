@@ -20,7 +20,6 @@ class DojosController < ApplicationController
 		dojo 	= Dojo.create_new_dojo(dojos_params)
 		html 	= render_to_string :partial => "dojos/templates/dojo_row", :locals => {:dojo => dojo}
 
-		puts html
 		render :json => { dojo: dojo, html: html }
 	end
 
@@ -54,8 +53,7 @@ class DojosController < ApplicationController
 	# Describe what the method does
 	# params: id, 
 	def update
-		Dojo.update_dojo(params[:id], dojos_params)
-		dojo = Dojo.find_dojo_by_id(params[:id])
+		dojo = Dojo.update_dojo(params[:id], dojos_params)
 		html = render_to_string :partial => "/dojos/templates/dojo_row", :locals => { :dojo => dojo }
 
 		render :json => {dojo: dojo, html: html}
