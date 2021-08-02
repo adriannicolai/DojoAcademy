@@ -26,13 +26,15 @@ class Student < ApplicationRecord
     # Owner: Adrian
 	def self.create_student(params, dojo_id)
 		date_time_now = Time.now.utc.strftime("%Y-%m-%d %H:%M:%S")
-		ActiveRecord::Base.connection.insert(
-			ActiveRecord::Base.send(:sanitize_sql_array,
-			  ["INSERT INTO students (first_name, last_name, email, dojo_id, created_at, updated_at)
-				VALUES(?, ?, ?, ?, '#{date_time_now}', '#{date_time_now}');",
-				params["first_name"], params["last_name"], params["email"], dojo_id]
-			)
-		)
+		student_id	  = ActiveRecord::Base.connection.insert(
+							ActiveRecord::Base.send(:sanitize_sql_array,
+							["INSERT INTO students (first_name, last_name, email, dojo_id, created_at, updated_at)
+								VALUES(?, ?, ?, ?, '#{date_time_now}', '#{date_time_now}');",
+								params["first_name"], params["last_name"], params["email"], dojo_id]
+							)
+						)
+
+		return self.find_student_by_id(student_id)
 	end
 
 	# DOCU: updates student with the corresponding student_id 
@@ -49,6 +51,8 @@ class Student < ApplicationRecord
 				params["first_name"], params["last_name"], params["email"], dojo_id, student_id]
 			)
 		)
+
+		return self.find_student_by_id(student_id)
 	end
 
 	# DOCU: Fetches the student after creating it 

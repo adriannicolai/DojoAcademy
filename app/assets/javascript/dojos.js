@@ -3,26 +3,28 @@ $(document).ready(function() {
         .on("click", ".close-modal", hideModals)                                         /* This will hide all modals */                       
         .on("submit", "#newDojoForm", submitNewDojo)                                     /* This will send the new dojo form via ajax post */                                                                           
         .on("submit", "#updateDojoForm", sumbitUpdateDojoForm)                           /* This will submit the new dojo form */
-        .on("click", "a", dojoNewEditDestroyListener)                                    /* This is an event listener whenever a is pressed and open the corresponding modal */
+        .on("click", "button", dojoNewEditDestroyListener)                                    /* This is an event listener whenever a is pressed and open the corresponding modal */
         .on("submit", "#getNewDojoForm", getNewDojoForm)                                 /* This will fetch the new dojo form for the mdal to load */
 });
 
 /**
-* DOCU: This function is an event listener whenever an anchor tag with 'action-type' attribute is clicked.<br>
-* Triggered: .on("click", "a", dojoNewEditDestroyListener) <br>
-* Last Updated Date: July 29, 2021
+* DOCU: This function is an event listener whenever button with 'action-type' attribute is clicked.<br>
+* Triggered: .on("click", "button", dojoNewEditDestroyListener) <br>
+* Last Updated Date: August 2, 2021
 * @function
 * @memberOf Dojos page
 * @author Adrian
 */
 function dojoNewEditDestroyListener(e){
+    
     let action  = $(this).attr("action-type");
     let form    = $(this).closest("form");
+    let dojo_id = $(this).closest("tr").find("input[name=dojo_id]").val()
 
     if (action == "show_dojo") {
         e.preventDefault();
 
-        form.attr("action", $(this).attr("href"));
+        form.attr("action", "/dojos/" + dojo_id + "/show");
 
         $.post(form.attr("action"), form.serialize(), function (res) {
             if(res.status){
@@ -33,17 +35,19 @@ function dojoNewEditDestroyListener(e){
     else if(action == "edit_dojo"){
         e.preventDefault();
 
-        form.attr("action", $(this).attr("href"));
+        form.attr("action", "/dojos/" + dojo_id + "/edit");
 
-        $.post($(this).attr("href"), $(this).serialize(), function (res) {
+        $.post(form.attr("action"), $(this).serialize(), function (res) {
             $("#modalTitle").text("Editing " + res.dojo.branch);
             $("#modal-body").html(res.html);
         });
 
         $("#dojoModal").modal("show");
     }
-    else if (action == "delete_dojo") {
+    else if (action == "destroy_dojo") {
         e.preventDefault();
+
+        form.attr("action", "/dojos/" + dojo_id + "/destroy");
 
         $.post(form.attr("action"), $(this).serialize(), function(res){})
 
