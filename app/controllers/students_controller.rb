@@ -38,7 +38,6 @@ class StudentsController < ApplicationController
 		student = Student.update_student(params[:id], student_params, params[:student][:dojo])
 		html 	= render_to_string partial: 'students/templates/student_row', locals: { cohort: student[:result][:student]}
 
-		puts student
 		render :json => { student: student[:result][:student], current_dojo: session[:current_dojo], html: html, status: true } if student[:status]
 		render :json => { :status => false } unless  student[:status]
 	rescue Exception 
