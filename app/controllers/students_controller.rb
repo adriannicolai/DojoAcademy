@@ -13,6 +13,9 @@ class StudentsController < ApplicationController
     	@student = Student.find_student_by_id(params[:id])
 		@cohorts = Dojo.find_students_by_dojo_id(@student["dojo_id"])
 		@dojo	 = Dojo.find_dojo_by_id(@student["dojo_id"])
+
+	rescue Exception
+		render :json => { :status => false } 
   	end
 
 	# (GET) /students/:id/edit
@@ -23,10 +26,9 @@ class StudentsController < ApplicationController
 		dojos 	= Dojo.all_dojos
 		html = render_to_string partial: "students/templates/student_modal", locals: { dojos: dojos, student: student, current_dojo: session[:current_dojo]}
 
-		render json: { html: html }
-	rescue Exception => ex
-		Error.record_error_return(ex.message, params)
-		render :json => { :status => false, :error_message => ex.message } 
+		render json: { html: html, status: true }
+	rescue Exception
+		render :json => { :status => false } 
 	end
 
 	# (POST) /students/:id
@@ -36,10 +38,11 @@ class StudentsController < ApplicationController
 		student = Student.update_student(params[:id], student_params, params[:student][:dojo])
 		html 	= render_to_string partial: 'students/templates/student_row', locals: { cohort: student[:result][:student]}
 
-		render :json => { student: student[:result][:student], current_dojo: session[:current_dojo], html: html }
-	rescue Exception => ex
-		Error.record_error_return(ex.message, params)
-		render :json => { :status => false, :error_message => ex.message } 
+		puts student
+		render :json => { student: student[:result][:student], current_dojo: session[:current_dojo], html: html, status: true } if student[:status]
+		render :json => { :status => false } unless  student[:status]
+	rescue Exception 
+		render :json => { :status => false } 
 	end
 
 	# (GET) /students/new
@@ -47,7 +50,7 @@ class StudentsController < ApplicationController
 	def new
 		html = render_to_string partial: "students/templates/student_modal", locals: { dojos: Dojo.all_dojos, current_dojo: session[:current_dojo], student: nil }
 
-		render :json => {html: html}
+		render :json => {html: html, status: true}
 	end
 
 	# (POST) /students

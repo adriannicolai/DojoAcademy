@@ -4,6 +4,15 @@ require 'rails_helper'
 # Owner:        Adrian
 # Run using:    rspec spec/controllers/dojos_controller_spec.rb
 RSpec.describe DojosController do
+    before do
+        @dojo = create(:dojo)
+        @dojos_params = {
+            branch: "branch",
+            street: "street",
+            city: "city",
+            state: "state"
+        }
+    end
     describe "renders the index" do
         # GREEN  TEST CASE
         it "renders the :index view" do 
@@ -16,9 +25,8 @@ RSpec.describe DojosController do
 
     describe "updating a dojo" do
         # GREEN TEST CASE
-        it "renders the tempplate for updating a dojo" do
-            dojo = create(:dojo)
-            post :edit, params: { id: dojo.id }
+        it "renders the tempplate for updating a dojo and returna a status of true" do
+            post :edit, params: { id: @dojo.id }
 
             json = JSON.parse(response.body)
             
@@ -28,14 +36,7 @@ RSpec.describe DojosController do
 
         # GREEN TEST CASE
         it "updates the dojo successfully" do
-            dojos_params = {
-                branch: "branch",
-                street: "street",
-                city: "city",
-                state: "state"
-            }
-            dojo = create(:dojo)
-            post :update, params: { id: dojo.id, dojo: dojos_params }
+            post :update, params: { id: @dojo.id, dojo: @dojos_params }
 
             json = JSON.parse(response.body)
 
@@ -45,7 +46,6 @@ RSpec.describe DojosController do
 
         # RED TEST CASE
         it "updates the dojo unsuccessfully" do
-            dojo = create(:dojo)
             post :edit, params: { id: "ASDAS" }
 
             json = JSON.parse(response.body)
@@ -58,8 +58,7 @@ RSpec.describe DojosController do
     describe "showing a dojo" do
         # GREEN TEST CASE
         it "redirects the page if the dojo is valid" do
-            dojo = create(:dojo)
-            post :show, params: { id: dojo.id }
+            post :show, params: { id: @dojo.id }
             
             #expects the http status to be 200 ok
             expect(response).to have_http_status(200)
@@ -71,7 +70,7 @@ RSpec.describe DojosController do
             
             json = JSON.parse(response.body)
 
-            #expects the http status to be 200 ok
+            #expects the page to render a json with status of false 
             expect(json["status"]).to_not be_truthy
         end
     end
