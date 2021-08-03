@@ -8,8 +8,8 @@ class Dojo < ApplicationRecord
     # Owner: Adrian
     def self.all_dojos
         return ActiveRecord::Base.connection.exec_query(
-                                "SELECT * FROM dojos"
-                                )
+                "SELECT * FROM dojos"
+                )
     end
 
     # DOCU: Create a new dojko
@@ -17,7 +17,9 @@ class Dojo < ApplicationRecord
     # Returns: true, false
     # Requires: params["branch"], params["street"], params["street"], params["state"]
     # Owner: Adrian
-    def self.create_new_dojo params
+    def self.create_new_dojo(params)
+        response        =   { :status => false, :result => {}, :error => nil }
+
         date_time_now   =   Time.now.utc.strftime("%Y-%m-%d %H:%M:%S")
 
         new_dojo        =   ActiveRecord::Base.connection.insert(
@@ -27,8 +29,19 @@ class Dojo < ApplicationRecord
                                     params["branch"], params["street"], params["city"], params["state"]]
                                 )
                             )
-                    
-        return self.find_dojo_by_id(new_dojo)
+                
+        dojo            =  self.find_dojo_by_id(new_dojo)
+
+        if(dojo.present?)
+            response[:status] =  true
+            response[:result] =  {dojo: dojo }
+        else
+            response[:error]  = "Dojo not found"
+        end
+
+        return response
+    rescue Exception => ex
+		return { :status => false, :error => ex.message }
     end
 
     # DOCU: Finds the dojo with the corresponding dojo_id
@@ -54,9 +67,10 @@ class Dojo < ApplicationRecord
     def self.find_students_by_dojo_id(dojo_id)
         ActiveRecord::Base.connection.execute(
             ActiveRecord::Base.send(:sanitize_sql_array,
-                ["SELECT * FROM students 
+              ["SELECT * FROM students 
                 WHERE dojo_id = ?;",
-                dojo_id])
+                dojo_id]
+            )
         )
     rescue Exception
 		  return  false
@@ -76,7 +90,7 @@ class Dojo < ApplicationRecord
         )
 		ActiveRecord::Base.connection.delete(
 			ActiveRecord::Base.send(:sanitize_sql_array,
-                ["DELETE FROM dojos
+              ["DELETE FROM dojos
                 WHERE id = ?;",
                 dojo_id]
             )
@@ -90,15 +104,28 @@ class Dojo < ApplicationRecord
     # Requires: dojo_id
     # Owner: Adrian
 	def self.update_dojo(dojo_id, params)
+        response        =   { :status => false, :result => {}, :error => nil }
+
 		ActiveRecord::Base.connection.update(
             ActiveRecord::Base.send(:sanitize_sql_array,
-                ["UPDATE dojos
+              ["UPDATE dojos
                 SET branch = ?, street = ?, city = ?, state = ?
                 WHERE id = ?;",
-                params["branch"], params["street"], params["city"], params["state"], dojo_id]
+                params["branch"], params["street"], params["city"], params["state"], dojo_id ]
             )
 		)
 
-        return self.find_dojo_by_id(dojo_id)
+        dojo = self.find_dojo_by_id(dojo_id)
+
+        if(dojo.present?)
+            response[:status] = true
+            response[:result] = { dojo: dojo }
+        else
+            response[:error] = "Dojo not found"
+        end
+
+        return response
+    rescue Exception => ex
+		return { :status => false, :error => ex.message }
 	end
 end
