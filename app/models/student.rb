@@ -25,6 +25,8 @@ class Student < ApplicationRecord
     # Returns: created record, false
     # Owner: Adrian
 	def self.create_student(params, dojo_id)
+		response        =   { :status => false, :result => {}, :error => nil }
+
 		date_time_now = Time.now.utc.strftime("%Y-%m-%d %H:%M:%S")
 		student_id	  = ActiveRecord::Base.connection.insert(
 							ActiveRecord::Base.send(:sanitize_sql_array,
@@ -34,7 +36,18 @@ class Student < ApplicationRecord
 							)
 						)
 
-		return self.find_student_by_id(student_id)
+		student = self.find_student_by_id(student_id)
+
+		if(student.present?)
+			response[:status] = true
+			response[:result] = { student: student }
+		else
+			response[:error] = "Student not found"
+		end
+	
+		return response
+	rescue Exception => ex
+		return { :status => false, :error => ex.message }
 	end
 
 	# DOCU: updates student with the corresponding student_id 
@@ -43,6 +56,8 @@ class Student < ApplicationRecord
     # Returns: updated record, false
     # Owner: Adrian
 	def self.update_student(student_id, params, dojo_id)
+		response = { :status => false, :result => {}, :error => nil }
+
 		ActiveRecord::Base.connection.update(
 			ActiveRecord::Base.send(:sanitize_sql_array,
 			  ["UPDATE students
@@ -52,7 +67,18 @@ class Student < ApplicationRecord
 			)
 		)
 
-		return self.find_student_by_id(student_id)
+		student = self.find_student_by_id(student_id)
+
+		if(student.present?)
+			response[:status] = true
+			response[:result] = { student: student }
+		else
+			response[:error] = "Student not found"
+		end
+
+		return response
+    rescue Exception => ex
+		return { :status => false, :error => ex.message }
 	end
 
 	# DOCU: Fetches the student after creating it 
