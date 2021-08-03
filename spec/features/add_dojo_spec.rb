@@ -6,16 +6,19 @@ feature "A user adds a new dojo" do
     end
 
     scenario "Successfulyl creates a new dojo" do
-        
+
         click_button "Create a new Dojo"
 
 
-       wait_for_ajax
-         
-        fill_in "user_first_name", with: "shane"
+        sleep 3
 
-    
-    
+      
+
+        # within('#dojoModal') do
+        #     fill_in "dojo_branch", with: "branch"
+        # end
+        expect(current_path).to eq"/dojos"
+
     end
 
 

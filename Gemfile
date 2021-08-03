@@ -37,6 +37,7 @@ group :development, :test do
     gem 'factory_bot_rails'
     gem 'rexml', '~> 3.2', '>= 3.2.4'
     gem 'capybara', '>= 3.26'
+    gem 'rails-controller-testing'
 end
 
 group :development do

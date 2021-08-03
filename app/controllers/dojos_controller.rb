@@ -5,7 +5,7 @@ class DojosController < ApplicationController
 		@dojos = Dojo.all_dojos
   	end
 	
-	# (GET) /dojos/new
+	# (POST) /dojos/new
 	# Displays a form for creating a new dojo
 	def new
 		html = render_to_string partial: "dojos/templates/dojo_modal", locals: {dojo: nil}
@@ -33,23 +33,26 @@ class DojosController < ApplicationController
 		render :json => { redirect_url: "/dojos/#{params[:id]}", status: true }
 	end
 
-	# (GET) /dojos/:id
+	# (POST) /dojos/:id
 	# Shows the selected dojo
 	# params: id
 	def show
 		session[:current_dojo] = params[:id]
 		@dojo 	  = Dojo.find_dojo_by_id(params[:id])
 		@students = Dojo.find_students_by_dojo_id(params[:id])
+
+		render :json => { :status => false, :error_message => "Dojo not found" } unless @dojo.present?
 	end
 
-	# (GET) /dojos/:id/edit
+	# (POST) /dojos/:id/edit
 	# Edit the selected dojo
 	# params: id, [:dojo][:branch], [:dojo][:city], [:dojo][:street], [:dojo][:state]
 	def edit
 		dojo = Dojo.find_dojo_by_id(params[:id])
 		html = render_to_string partial: "dojos/templates/dojo_modal", locals: {dojo: dojo}
 		
-		render :json => {html: html, dojo: dojo}
+		render :json => {html: html, dojo: dojo, status: true} if dojo.present?
+		dojo_not_found unless dojo.present?
 	rescue Exception => ex
 		Error.record_error_return(ex.message, params)
 		render :json => { :status => false, :error_message => ex.message } 
@@ -62,10 +65,11 @@ class DojosController < ApplicationController
 		dojo = Dojo.update_dojo(params[:id], dojos_params)
 		html = render_to_string :partial => "/dojos/templates/dojo_row", :locals => { :dojo => dojo[:result][:dojo] }
 
-		render :json => {dojo: dojo[:result][:dojo], html: html}
+		render :json => { dojo: dojo[:result][:dojo], html: html, status: true } if dojo.present?
+		render :json => { status:  false } unless dojo.present?
 	end
 
-	# (GET) /dojos/:id/destroy
+	# (POST) /dojos/:id/destroy
 	# Destroys the selected dojo
 	# params: id
 	def destroy
@@ -77,4 +81,7 @@ class DojosController < ApplicationController
 		params.require(:dojo).permit(:branch, :city, :street, :state)
 	end
 	  
+	def dojo_not_found
+		render :json => { status: false }
+	end
 end
