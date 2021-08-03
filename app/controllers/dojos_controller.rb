@@ -18,9 +18,12 @@ class DojosController < ApplicationController
 	# params: [:dojo][:branch], [:dojo][:city], [:dojo][:street], [:dojo][:state]
 	def create
 		dojo 	= Dojo.create_new_dojo(dojos_params)
-		html 	= render_to_string :partial => "dojos/templates/dojo_row", :locals => {:dojo => dojo}
+		html 	= render_to_string :partial => "dojos/templates/dojo_row", :locals => {:dojo => dojo[:result][:dojo]}
 
-		render :json => { dojo: dojo, html: html }
+		render :json => { dojo: dojo[:result][:dojo], html: html }
+	rescue Exception => ex
+		Error.record_error_return(ex.message, params)
+		render :json => { :status => false, :error_message => ex.message } 
 	end
 
 	# (POST) /dojos/:id/show
@@ -47,6 +50,9 @@ class DojosController < ApplicationController
 		html = render_to_string partial: "dojos/templates/dojo_modal", locals: {dojo: dojo}
 		
 		render :json => {html: html, dojo: dojo}
+	rescue Exception => ex
+		Error.record_error_return(ex.message, params)
+		render :json => { :status => false, :error_message => ex.message } 
 	end
 
 	# (POST) /dojos/:id/edit
@@ -54,9 +60,9 @@ class DojosController < ApplicationController
 	# params: id, 
 	def update
 		dojo = Dojo.update_dojo(params[:id], dojos_params)
-		html = render_to_string :partial => "/dojos/templates/dojo_row", :locals => { :dojo => dojo }
+		html = render_to_string :partial => "/dojos/templates/dojo_row", :locals => { :dojo => dojo[:result][:dojo] }
 
-		render :json => {dojo: dojo, html: html}
+		render :json => {dojo: dojo[:result][:dojo], html: html}
 	end
 
 	# (GET) /dojos/:id/destroy
