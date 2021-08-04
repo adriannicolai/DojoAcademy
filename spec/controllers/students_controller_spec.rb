@@ -30,7 +30,7 @@ RSpec.describe StudentsController do
             json = JSON.parse(response.body)
 
             #expects the page to render a json with status of false 
-            expect(json["status"]).to_not be_truthy
+            expect(json["status"]).to be_falsey    
         end
     end
 
@@ -59,15 +59,12 @@ RSpec.describe StudentsController do
         # RED TEST CASE
         it "updates the student unsuccessfully" do
 
-            post :update, params: { id: "asdasddas", student: "asasdas", student: {dojo: 1201041520153} }
+            post :update, params: { id: "asdasddas", student: "asasdas", student: { dojo: 1201041520153} }
 
             json = JSON.parse(response.body)
 
             #expects the status to be false
-            expect(json["status"]).to_not be_truthy
+            expect(json["status"]).to be_falsey    
         end
     end
-
-
-
 end
