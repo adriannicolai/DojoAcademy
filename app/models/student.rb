@@ -10,13 +10,13 @@ class Student < ApplicationRecord
     # Returns: returns selected records, false
     # Owner: Adrian
 	def self.find_student_by_id(student_id)
-		ActiveRecord::Base.connection.select_one(
-			ActiveRecord::Base.send(:sanitize_sql_array,
-			  ["SELECT * FROM students 
-				WHERE id = ?;",
-				student_id]
-			)
-		)
+		return 		ActiveRecord::Base.connection.select_one(
+						ActiveRecord::Base.send(:sanitize_sql_array,
+						["SELECT * FROM students 
+							WHERE id = ?;",
+							student_id]
+						)
+					)
 	end
 
 	# DOCU: creates a new student
@@ -81,20 +81,6 @@ class Student < ApplicationRecord
 		return { :status => false, :error => ex.message }
 	end
 
-	# DOCU: Fetches the student after creating it 
-    # Triggered by: students_controller > create
-    # Requires: dojo_id, params["first_name"], params["last_name"], params["email"]
-    # Owner: Adrian
-    def self.find_student_after_creation(params, dojo_id)
-        ActiveRecord::Base.connection.select_one(
-            ActiveRecord::Base.send(:sanitize_sql_array,
-                  ["SELECT * from students
-                	WHERE first_name = ? AND last_name = ? AND email = ? AND dojo_id = ?;",
-                	params["first_name"], params["last_name"], params["email"], dojo_id]
-            )
-        )
-    end
-
 	# DOCU: Deletes the student by id
     # Triggered by: students_controller > destroy
     # Requires: id
@@ -108,4 +94,15 @@ class Student < ApplicationRecord
 			)
 		)
     end
+
+	def self.delete_students_by_dojo_id(dojo_id)
+
+		ActiveRecord::Base.connection.delete(
+            ActiveRecord::Base.send(:sanitize_sql_array,
+              ["DELETE FROM students
+                WHERE dojo_id = ?;",
+                dojo_id]
+            )
+        )
+	end
 end
