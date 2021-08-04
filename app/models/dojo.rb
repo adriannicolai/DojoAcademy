@@ -50,12 +50,14 @@ class Dojo < ApplicationRecord
     # Returns: selected record, false
     # Owner: Adrian
     def self.find_dojo_by_id(dojo_id)
-        ActiveRecord::Base.connection.select_one(
-            ActiveRecord::Base.send(:sanitize_sql_array,
-                ["SELECT * FROM dojos
-                WHERE ID = ?;",
-                dojo_id])
-        )
+        return ActiveRecord::Base.connection.select_one(
+                ActiveRecord::Base.send(:sanitize_sql_array,
+                    ["SELECT * FROM dojos
+                    WHERE ID = ?;",
+                    dojo_id]
+                )
+            )
+        
     rescue Exception
 		return  false
     end
@@ -65,13 +67,13 @@ class Dojo < ApplicationRecord
     # Returns: selected records, false
     # Owner: Adrian
     def self.find_students_by_dojo_id(dojo_id)
-        ActiveRecord::Base.connection.execute(
-            ActiveRecord::Base.send(:sanitize_sql_array,
-              ["SELECT * FROM students 
-                WHERE dojo_id = ?;",
-                dojo_id]
-            )
-        )
+        return    ActiveRecord::Base.connection.execute(
+                    ActiveRecord::Base.send(:sanitize_sql_array,
+                    ["SELECT * FROM students 
+                        WHERE dojo_id = ?;",
+                        dojo_id]
+                    )
+                )
     rescue Exception
 		  return  false
     end
@@ -81,13 +83,8 @@ class Dojo < ApplicationRecord
     # Requires: dojo_id
     # Owner: Adrian
 	def self.delete_dojo_by_id(dojo_id)
-        ActiveRecord::Base.connection.delete(
-            ActiveRecord::Base.send(:sanitize_sql_array,
-              ["DELETE FROM students
-                WHERE dojo_id = ?;",
-                dojo_id]
-            )
-        )
+        Student.delete_students_by_dojo_id(dojo_id)
+
 		ActiveRecord::Base.connection.delete(
 			ActiveRecord::Base.send(:sanitize_sql_array,
               ["DELETE FROM dojos
