@@ -70,10 +70,10 @@ class Student < ApplicationRecord
 		student = self.find_student_by_id(student_id)
 
 		if(student.present?)
-			response[:status] = true
-			response[:result] = { student: student }
+			response[:status] 	= true
+			response[:result] 	= { student: student }
 		else
-			response[:error] = "Student not found"
+			response[:error] 	= "Student not found"
 		end
 
 		return response
