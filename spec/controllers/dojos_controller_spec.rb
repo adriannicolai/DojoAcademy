@@ -82,6 +82,9 @@ RSpec.describe DojosController do
             
             #expects the http status to be 200 ok
             expect(response).to have_http_status(200)
+
+            #expects the template for show to be loaded
+            expect(response).to render_template :show
         end
     end
 end

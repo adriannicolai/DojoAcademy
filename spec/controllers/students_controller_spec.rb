@@ -25,18 +25,21 @@ RSpec.describe StudentsController do
             expect(json["status"]).to be_falsey    
         end
 
-        # GREEN TEST VASE
+        # GREEN TEST CASE
         it "Should show the selected student along with his cohorts" do
             post :show, params: { id: @student.id }
             
             #expects the http status to be 200 ok
             expect(response).to have_http_status(200)
+            
+            # expects the show template to be rendered
+            expect(response).to render_template :show
         end
     end
 
     describe "updating a student" do
         # RED TEST CASE
-        it "updates the student unsuccessfully" do
+        it "Should not update the student" do
 
             post :update, params: { id: "asdasddas", student: "asasdas", student: { dojo: 1201041520153} }
 
@@ -47,7 +50,7 @@ RSpec.describe StudentsController do
         end
 
         # GREEN TEST CASE   
-        it "renders the tempplate for updating a dojo adn returna a status of true" do
+        it "Should render the tempplate for updating a dojo adn returna a status of true" do
             post :edit, params: { id: @student.id }
 
             json = JSON.parse(response.body)
@@ -60,7 +63,7 @@ RSpec.describe StudentsController do
         end
 
         # GREEN TEST CASE
-        it "updates the student successfully" do
+        it "Should update the student successfully" do
 
             post :update, params: { id: @student.id, student: @student_params, student: {dojo: @student.dojo.id} }
 
