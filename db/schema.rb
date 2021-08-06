@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2021_07_22_103341) do
 
-  create_table "dojos", force: :cascade do |t|
+  create_table "dojos", charset: "latin1", force: :cascade do |t|
     t.string "branch"
     t.string "street"
     t.string "city"
@@ -21,11 +21,11 @@ ActiveRecord::Schema.define(version: 2021_07_22_103341) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "students", force: :cascade do |t|
+  create_table "students", charset: "latin1", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "email"
-    t.integer "dojo_id", null: false
+    t.bigint "dojo_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["dojo_id"], name: "index_students_on_dojo_id"

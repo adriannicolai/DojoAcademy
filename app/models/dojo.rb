@@ -67,7 +67,7 @@ class Dojo < ApplicationRecord
     # Returns: selected records, false
     # Owner: Adrian
     def self.find_students_by_dojo_id(dojo_id)
-        return    ActiveRecord::Base.connection.execute(
+        return    ActiveRecord::Base.connection.exec_query(
                     ActiveRecord::Base.send(:sanitize_sql_array,
                     ["SELECT * FROM students 
                         WHERE dojo_id = ?;",
