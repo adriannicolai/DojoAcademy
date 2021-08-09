@@ -41,7 +41,6 @@ class DojosController < ApplicationController
 		@dojo 	  = Dojo.find_dojo_by_id(params[:id])
 		@students = Dojo.find_students_by_dojo_id(params[:id])
 
-
 		render :json => { :status => false, :error_message => "Dojo not found" } unless @dojo.present?
 	end
 

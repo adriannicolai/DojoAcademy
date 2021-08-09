@@ -16,7 +16,6 @@ $(document).ready(function() {
 * @author Adrian
 */
 function dojoNewEditDestroyListener(e){
-    
     let action  = $(this).attr("action-type");
     let form    = $(this).closest("form");
     let dojo_id = $(this).closest("tr").find("input[name=dojo_id]").val()

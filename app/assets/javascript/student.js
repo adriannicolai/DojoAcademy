@@ -7,7 +7,6 @@ $(document).ready(function(){
         .on("submit", "#showStudentForm", submitShowStudentForm)            /* This will submit the show student form xia ajax request */
 });
 
-
 /**
 * DOCU: This function submit the show dojo form and redirect the page .<br>
 * Triggered: .on("submit", "#showStudentForm", submitShowStudentForm) <br>
